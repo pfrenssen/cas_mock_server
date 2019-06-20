@@ -1,0 +1,4 @@
+services:
+  cas_mock_server.server_manager:
+    class: Drupal\cas_mock_server\ServerManager
+    arguments: ['@config.factory', '@state']

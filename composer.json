@@ -23,5 +23,12 @@
   },
   "suggest": {
     "drush/drush": "Provides a CLI to start and stop the mock server."
+  },
+  "extra": {
+    "drush": {
+      "services": {
+        "drush.services.yml": "^9"
+      }
+    }
   }
 }

@@ -1,0 +1,6 @@
+services:
+  cas_mock_server.commands:
+    class: \Drupal\cas_mock_server\Commands\CasMockServerCommands
+    arguments: ['@cas_mock_server.server_manager']
+    tags:
+      - { name: drush.command }
