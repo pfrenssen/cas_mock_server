@@ -1,0 +1,6 @@
+name: CAS mock server
+type: module
+description: A mocked CAS server for testing purposes.
+core: 8.x
+dependencies:
+  - cas:cas

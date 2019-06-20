@@ -1,0 +1,27 @@
+{
+  "name": "drupal/cas_mock_server",
+  "type": "drupal-module",
+  "description": "A mocked CAS server for testing purposes.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://www.drupal.org/project/cas_mock_server",
+  "authors": [
+    {
+      "name": "Pieter Frenssen",
+      "homepage": "https://www.drupal.org/u/pfrenssen",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/cas_mock_server",
+    "source": "http://cgit.drupalcode.org/cas_mock_server"
+  },
+  "require": {
+    "php": ">=7.1.0",
+    "drupal/cas": "~1.5",
+    "drupal/core": "~8.7"
+  },
+  "suggest": {
+    "drush/drush": "Provides a CLI to start and stop the mock server."
+  }
+}
