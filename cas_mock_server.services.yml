@@ -1,4 +1,14 @@
 services:
+  cache_context.cas_mock_server_is_active:
+    class: Drupal\cas_mock_server\Cache\Context\IsCasMockServerActiveCacheContext
+    arguments: ['@cas_mock_server.server_manager']
+    tags:
+      - { name: cache.context }
+  cas_mock_server.config_overrider:
+    class: Drupal\cas_mock_server\Config\CasMockServerConfigOverrider
+    arguments: ['@cas_mock_server.server_manager', '@request_stack', '@messenger']
+    tags:
+      - {name: config.factory.override}
   cas_mock_server.server_manager:
     class: Drupal\cas_mock_server\ServerManager
-    arguments: ['@config.factory', '@state', '@request_stack']
+    arguments: ['@state']

@@ -11,19 +11,11 @@ interface ServerManagerInterface {
 
   /**
    * Starts the mock server.
-   *
-   * @throws \Drupal\cas_mock_server\Exception\CasMockServerException
-   *   Thrown when an error occurs starting the server.
-   * @throws \Drupal\cas_mock_server\Exception\UnresolvableHostException
-   *   Thrown when the server is being started using an unresolvable host.
    */
   public function start(): void;
 
   /**
    * Stops the mock server.
-   *
-   * @throws \Drupal\cas_mock_server\Exception\CasMockServerException
-   *   Thrown when an error occurs when stopping the server.
    */
   public function stop(): void;
 
