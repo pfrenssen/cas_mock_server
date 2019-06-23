@@ -16,6 +16,16 @@ use Drupal\Core\Cache\Context\CacheContextInterface;
 class IsCasMockServerActiveCacheContext implements CacheContextInterface {
 
   /**
+   * The context value that indicates that the mock server is active.
+   */
+  const SERVER_ACTIVE = 'active';
+
+  /**
+   * The context value that indicates that the mock server is inactive.
+   */
+  const SERVER_INACTIVE = 'inactive';
+
+  /**
    * The CAS mock server manager.
    *
    * @var \Drupal\cas_mock_server\ServerManagerInterface
@@ -40,7 +50,7 @@ class IsCasMockServerActiveCacheContext implements CacheContextInterface {
    * {@inheritdoc}
    */
   public function getContext() {
-    return (int) $this->serverManager->isServerActive();
+    return $this->serverManager->isServerActive() ? self::SERVER_ACTIVE : self::SERVER_INACTIVE;
   }
 
   /**
