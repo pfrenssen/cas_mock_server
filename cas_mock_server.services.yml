@@ -11,4 +11,4 @@ services:
       - {name: config.factory.override}
   cas_mock_server.server_manager:
     class: Drupal\cas_mock_server\ServerManager
-    arguments: ['@state']
+    arguments: ['@state', '@cache_tags.invalidator', '@config.factory']

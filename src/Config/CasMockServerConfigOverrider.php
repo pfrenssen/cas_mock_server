@@ -18,6 +18,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
 
   /**
+   * The cache tag that is used to identify overridden config.
+   */
+  const CACHE_TAG = 'cas_mock_server_config_overrider';
+
+  /**
    * The CAS mock server manager.
    *
    * @var \Drupal\cas_mock_server\ServerManagerInterface
@@ -41,12 +46,12 @@ class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
   /**
    * Constructs a CasMockServerConfigOverrider.
    *
-   * @param ServerManagerInterface $serverManager
+   * @param \Drupal\cas_mock_server\ServerManagerInterface $serverManager
    *   The CAS mock server manager.
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service
+   *   The messenger service.
    */
   public function __construct(ServerManagerInterface $serverManager, RequestStack $requestStack, MessengerInterface $messenger) {
     $this->serverManager = $serverManager;
@@ -87,7 +92,10 @@ class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
    */
   public function getCacheableMetadata($name) {
     $metadata = new CacheableMetadata();
-    $metadata->addCacheContexts(['cas_mock_server_is_active']);
+    if ($name === 'cas.settings') {
+      $metadata->addCacheContexts(['cas_mock_server_is_active']);
+      $metadata->addCacheTags([self::CACHE_TAG]);
+    }
     return $metadata;
   }
 

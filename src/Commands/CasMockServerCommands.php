@@ -22,7 +22,7 @@ class CasMockServerCommands extends DrushCommands {
   /**
    * Constructs a CasMockServerCommands object.
    *
-   * @param ServerManagerInterface $serverManager
+   * @param \Drupal\cas_mock_server\ServerManagerInterface $serverManager
    *   The CAS mock server manager.
    */
   public function __construct(ServerManagerInterface $serverManager) {
