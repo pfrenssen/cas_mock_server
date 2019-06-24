@@ -6,7 +6,6 @@ namespace Drupal\cas_mock_server;
 
 use Drupal\cas_mock_server\Config\CasMockServerConfigOverrider;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\State\StateInterface;
 
 /**
@@ -34,26 +33,16 @@ class ServerManager implements ServerManagerInterface {
   protected $cacheTagsInvalidator;
 
   /**
-   * The config factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * Constructs a ServerManager.
    *
    * @param \Drupal\Core\State\StateInterface $state
    *   The state key/value store.
    * @param \Drupal\Core\Cache\CacheTagsInvalidatorInterface $cacheTagsInvalidator
    *   The cache tags invalidator.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
-   *   The config factory.
    */
-  public function __construct(StateInterface $state, CacheTagsInvalidatorInterface $cacheTagsInvalidator, ConfigFactoryInterface $configFactory) {
+  public function __construct(StateInterface $state, CacheTagsInvalidatorInterface $cacheTagsInvalidator) {
     $this->state = $state;
     $this->cacheTagsInvalidator = $cacheTagsInvalidator;
-    $this->configFactory = $configFactory;
   }
 
   /**
@@ -97,10 +86,6 @@ class ServerManager implements ServerManagerInterface {
    */
   protected function invalidateCache(): void {
     $this->cacheTagsInvalidator->invalidateTags([CasMockServerConfigOverrider::CACHE_TAG]);
-
-    // The config factory static cache does not yet support cacheability
-    // metadata. We need to invalidate its cache directly.
-    $this->configFactory->reset('cas.settings');
   }
 
 }

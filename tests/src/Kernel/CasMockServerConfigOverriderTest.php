@@ -125,6 +125,12 @@ class CasMockServerConfigOverriderTest extends KernelTestBase {
    *   The configuration object containing the settings for the CAS module.
    */
   protected function getCasConfig(): ImmutableConfig {
+    // The config factory static cache does not support cacheability metadata
+    // and might return stale data. We need to invalidate its cache directly.
+    // @todo Remove this when the config factory supports cacheability metadata.
+    // @see https://www.drupal.org/project/drupal/issues/3063687
+    $this->configFactory->reset('cas.settings');
+
     return $this->configFactory->get('cas.settings');
   }
 
