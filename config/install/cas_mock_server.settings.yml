@@ -1,0 +1,5 @@
+login_form:
+  title: 'Login'
+  email: E-mail
+  password: Password
+  submit: 'Log in'

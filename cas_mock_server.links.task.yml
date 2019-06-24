@@ -1,0 +1,4 @@
+cas_mock_server.settings:
+  title: 'CAS mock server'
+  route_name: cas_mock_server.settings
+  base_route: cas.settings

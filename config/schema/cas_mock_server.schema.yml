@@ -1,0 +1,24 @@
+cas_mock_server.settings:
+  type: config_object
+  label: 'CAS Mock Server settings'
+  mapping:
+    login_form:
+      type: mapping
+      label: 'Login form settings'
+      mapping:
+        title:
+          type: label
+          label: 'Form title'
+          nullable: false
+        email:
+          type: label
+          label: 'E-mail field'
+          nullable: false
+        password:
+          type: label
+          label: 'Password field'
+          nullable: false
+        submit:
+          type: label
+          label: 'Submit button'
+          nullable: false

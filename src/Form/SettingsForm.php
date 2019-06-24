@@ -1,0 +1,86 @@
+<?php
+
+declare(strict_types = 1);
+
+namespace Drupal\cas_mock_server\Form;
+
+use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Settings form for the CAS mock server.
+ */
+class SettingsForm extends ConfigFormBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId(): string {
+    return 'cas_mock_server_settings';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEditableConfigNames(): array {
+    return ['cas_mock_server.settings'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state): array {
+    $config = $this->config('cas_mock_server.settings');
+
+    $form['login_form'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Login form'),
+      '#open' => TRUE,
+      '#tree' => TRUE,
+    ];
+    $form['login_form']['title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Form title'),
+      '#description' => $this->t('The title to display on the login form.'),
+      '#default_value' => $config->get('login_form.title'),
+      '#required' => TRUE,
+    ];
+    $form['login_form']['email'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('E-mail field'),
+      '#description' => $this->t('The label to use for the e-mail field.'),
+      '#default_value' => $config->get('login_form.email'),
+      '#required' => TRUE,
+    ];
+    $form['login_form']['password'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Password field'),
+      '#description' => $this->t('The label to use for the password field.'),
+      '#default_value' => $config->get('login_form.password'),
+      '#required' => TRUE,
+    ];
+    $form['login_form']['submit'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Submit button'),
+      '#description' => $this->t('The submit button text.'),
+      '#default_value' => $config->get('login_form.submit'),
+      '#required' => TRUE,
+    ];
+
+    return parent::buildForm($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
+    $this->config('cas_mock_server.settings')
+      ->set('login_form.title', $form_state->getValue(['login_form', 'title']))
+      ->set('login_form.email', $form_state->getValue(['login_form', 'email']))
+      ->set('login_form.password', $form_state->getValue(['login_form', 'password']))
+      ->set('login_form.submit', $form_state->getValue(['login_form', 'submit']))
+      ->save();
+    parent::submitForm($form, $form_state);
+  }
+
+}

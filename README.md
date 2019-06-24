@@ -11,6 +11,19 @@ This is purely intended for testing. Under no circumstances should this module
 be enabled on a production environment.
 
 
+Usage
+-----
+
+1. Install the module.
+2. Enable the module.
+3. Configure the module at Administration > Configuration > People > CAS > CAS
+   mock server (`/admin/config/people/cas/mock-server`).
+4. Set up mock users through the API (see below).
+5. Start the server using the API or Drush (see below).
+6. Try out the mock server by navigating to `/cas` and logging in using the
+   credentials of a mock user.
+
+
 Drush integration
 -----------------
 
