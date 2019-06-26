@@ -21,6 +21,9 @@
     "drupal/cas": "~1.5",
     "drupal/core": "~8.7"
   },
+  "require-dev": {
+    "drupal/coder": "~8.2",
+  },
   "suggest": {
     "drupal/config_override_warn": "Shows a warning on the CAS configuration form when the mock server is active.",
     "drush/drush": "Provides a CLI to start and stop the mock server."
@@ -30,6 +33,12 @@
       "services": {
         "drush.services.yml": "^9"
       }
+    }
+  },
+  "repositories": {
+    "drupal": {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
     }
   }
 }
