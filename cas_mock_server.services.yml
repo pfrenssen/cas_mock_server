@@ -1,4 +1,10 @@
 services:
+  cache.cas_mock_server:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin }
+    factory: cache_factory:get
+    arguments: [cas_mock_server]
   cache_context.cas_mock_server_is_active:
     class: Drupal\cas_mock_server\Cache\Context\IsCasMockServerActiveCacheContext
     arguments: ['@cas_mock_server.server_manager']
@@ -12,3 +18,6 @@ services:
   cas_mock_server.server_manager:
     class: Drupal\cas_mock_server\ServerManager
     arguments: ['@state', '@cache_tags.invalidator']
+  cas_mock_server.user_manager:
+    class: Drupal\cas_mock_server\UserManager
+    arguments: ['@cache.cas_mock_server']
