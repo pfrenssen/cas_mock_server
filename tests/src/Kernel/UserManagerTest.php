@@ -146,7 +146,7 @@ class UserManagerTest extends KernelTestBase {
         'email' => 'sessifret@gods.djelibeybi',
         'password' => 'zenith',
         'position' => 'Goddess of the Afternoon',
-      ]
+      ],
     ];
     $this->userManager->addUsers($users2);
     $this->assertUserCount(3);
@@ -335,4 +335,5 @@ class UserManagerTest extends KernelTestBase {
     sort($user_data);
     $this->assertSame($user_data, $user);
   }
+
 }

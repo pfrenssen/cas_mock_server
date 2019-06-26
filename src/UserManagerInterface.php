@@ -96,7 +96,7 @@ interface UserManagerInterface {
   /**
    * Deletes the users with the given usernames.
    *
-   * @param string[]|NULL $usernames
+   * @param string[]|null $usernames
    *   An array of usernames to delete. If left empty all users will be deleted.
    */
   public function deleteUsers(array $usernames = NULL): void;

@@ -13,6 +13,7 @@ class ServiceTicketHelper {
    * Returns a service ticket.
    *
    * @return string
+   *   The service ticket.
    */
   public static function generateServiceTicket(): string {
     /** @var \Drupal\Component\Uuid\UuidInterface $uuid_service */
