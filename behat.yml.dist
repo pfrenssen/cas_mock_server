@@ -1,0 +1,31 @@
+default:
+  suites:
+    default:
+      contexts:
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\Tests\cas_mock_server\Context\CasMockServerContext:
+            attributes_map:
+              firstname: First name
+              lastname: Last name
+  extensions:
+    Drupal\MinkExtension:
+      base_url: 'http://127.0.0.1:8888'
+    Drupal\DrupalExtension:
+      api_driver: 'drupal'
+      region_map:
+        Content: '.section--content-middle'
+      drupal:
+        drupal_root: '../cas_mock_server_build'
+      selectors:
+        message_selector: '.alert, .messages'
+        error_message_selector: '.alert.alert--error, .messages.message--error'
+        success_message_selector: '.alert.alert--status, .messages.messages--status'
+        warning_message_selector: '.alert.alert--warning, .messages.message--warning'
+      text:
+        log_in: 'Sign in'
+        log_out: 'Sign out'
+        username_field: 'Email or username'
+  formatters:
+    ${behat.formatter.name}: ~

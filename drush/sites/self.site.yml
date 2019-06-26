@@ -1,0 +1,8 @@
+travis:
+  uri: http://128.0.0.1:8888
+  root: .
+  command:
+    site:
+      install:
+        options:
+          db-url: mysql://root:@127.0.0.1/cas_mock_server

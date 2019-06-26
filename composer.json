@@ -23,7 +23,20 @@
   },
   "require-dev": {
     "drupal/coder": "~8.2",
+    "composer/installers": "^1.6",
+    "drupal-composer/drupal-scaffold": "^2.6",
+    "drupal/drupal-extension": "~4.0",
+    "drush/drush": "^9.7",
+    "mikey179/vfsstream": "^1.6",
+    "phpunit/phpunit": "~6",
+    "symfony/phpunit-bridge": "^4.3"
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\Tests\\cas_mock_server\\": "./tests/"
+    }
+  },
+  "minimum-stability": "alpha",
   "suggest": {
     "drupal/config_override_warn": "Shows a warning on the CAS configuration form when the mock server is active.",
     "drush/drush": "Provides a CLI to start and stop the mock server."
@@ -33,6 +46,12 @@
       "services": {
         "drush.services.yml": "^9"
       }
+    },
+    "installer-paths": {
+      "../cas_mock_server_build/core": ["type:drupal-core"],
+      "../cas_mock_server_build/profiles/contrib/{$name}": ["type:drupal-profile"],
+      "../cas_mock_server_build/modules/contrib/{$name}": ["type:drupal-module"],
+      "../cas_mock_server_build/themes/contrib/{$name}": ["type:drupal-theme"]
     }
   },
   "repositories": {
