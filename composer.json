@@ -29,7 +29,7 @@
     "drush/drush": "^9.7",
     "mikey179/vfsstream": "^1.6",
     "phpunit/phpunit": "~6",
-    "symfony/phpunit-bridge": "^4.3"
+    "symfony/phpunit-bridge": "^3.4|^4.3"
   },
   "autoload-dev": {
     "psr-4": {
