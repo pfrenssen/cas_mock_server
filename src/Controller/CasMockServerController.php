@@ -44,7 +44,7 @@ class CasMockServerController extends ControllerBase {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(

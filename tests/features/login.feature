@@ -11,6 +11,7 @@ Feature: CAS authentication
       | jb007       | 007@mi6.eu                        | shaken_not_stirred | James      | Bond      |
       | lissa       | Lisbeth.SALANDER@ext.ec.europa.eu | dragon_tattoo      | Lisbeth    | Salander  |
 
+    # Navigate to the login form.
     Given I am on the homepage
     And I click "Log in"
 
@@ -35,4 +36,4 @@ Feature: CAS authentication
     When I click "My account"
     Then I should see the heading "chucknorris"
     When I click "Edit"
-    Then I should see "texasranger@chucknorris.com.eu"
+    Then the "Email address" field should contain "texasranger@chucknorris.com.eu"

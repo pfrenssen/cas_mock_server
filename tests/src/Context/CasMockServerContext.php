@@ -85,9 +85,8 @@ class CasMockServerContext extends RawDrupalContext {
    */
   public function cleanUpUsers(): void {
     $user_manager = $this->getCasMockServerUserManager();
-    foreach ($this->usernames as $username) {
-      $user_manager->deleteUser($username);
-    }
+    $user_manager->deleteUsers($this->usernames);
+    $this->usernames = [];
   }
 
   /**
@@ -113,10 +112,10 @@ class CasMockServerContext extends RawDrupalContext {
    * | jb007    | 007@mi6.eu      | shaken_stirred | James      | Bond      |
    * @codingStandardsIgnoreEnd
    *
-   * he `Username`, `E-mail` and `Password` columns are required. All other
+   * The `Username`, `E-mail` and `Password` columns are required. All other
    * attributes are user defined.
    *
-   * @param \Behat\Gherkin\Node\TableNode $user_data
+   * @param \Behat\Gherkin\Node\TableNode $users_data
    *   The users to register.
    *
    * @Given (the following )CAS users:
@@ -147,6 +146,9 @@ class CasMockServerContext extends RawDrupalContext {
 
       $users[$values['username']] = $values;
 
+      // Keep track of the users that are created so they can be cleaned up
+      // after the test.
+      $this->usernames[] = $values['username'];
     }
     $this->getCasMockServerUserManager()->addUsers($users);
   }
