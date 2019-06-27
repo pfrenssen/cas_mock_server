@@ -10,6 +10,9 @@ Disclaimer
 This is purely intended for testing. Under no circumstances should this module
 be enabled on a production environment.
 
+Passwords are stored insecurely in plain text, and the test users are stored in
+cache memory, meaning that all users are lost when the cache is cleared.
+
 
 Usage
 -----
@@ -18,10 +21,58 @@ Usage
 2. Enable the module.
 3. Configure the module at Administration > Configuration > People > CAS > CAS
    mock server (`/admin/config/people/cas/mock-server`).
-4. Set up mock users through the API (see below).
+4. Add mock users through the API (see below).
 5. Start the server using the API or Drush (see below).
 6. Try out the mock server by navigating to `/cas` and logging in using the
    credentials of a mock user.
+
+
+API
+---
+
+### Start the mock server
+
+```
+$server_manager = \Drupal::service('cas_mock_server.server_manager');
+$server_manager->start();
+```
+
+### Stop the mock server
+
+```
+$server_manager = \Drupal::service('cas_mock_server.server_manager');
+$server_manager->stop();
+```
+
+### Check if the server is running
+
+```
+$server_manager = \Drupal::service('cas_mock_server.server_manager');
+$is_running = $server_manager->isServerActive();
+```
+
+### List mock users
+
+```
+$user_manager = \Drupal::service('cas_mock_server.user_manager');
+$users = $user_manager->getUsers();
+```
+
+### Add a mock user
+
+```
+$user = [
+  // These three attributes are required.
+  'username' => 'some_user',
+  'email' => 'user@example.com',
+  'password' => 'mypass',
+  // Add other CAS attributes if wanted.
+  'firstname' => 'Erika',
+  'lastname' => 'Mustermann',
+];
+$user_manager = \Drupal::service('cas_mock_server.user_manager');
+$users = $user_manager->addUser($user);
+```
 
 
 Drush integration
@@ -61,3 +112,26 @@ $ drush cas-mock-server:start
 ```
 $ drush cas-mock-server:stop
 ```
+
+
+Behat integration
+-----------------
+
+Add our example Context to your list of contexts in `behat.yml`, and configure
+the list of CAS attributes you want to use in your Behat scenarios. This will
+allow you to use human readable labels for the CAS attributes.
+
+```
+default:
+  suites:
+    default:
+      contexts:
+        - Drupal\Tests\cas_mock_server\Context\CasMockServerContext:
+            attributes_map:
+              firstname: First name
+              lastname: Last name
+```
+
+In your scenarios you can use the `@casMockServer` tag to automatically start
+the server at the beginning of the scenario, and delete it at the end. See
+`./tests/features/login.feature` for an example scenario.
