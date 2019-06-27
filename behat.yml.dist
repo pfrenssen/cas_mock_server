@@ -13,7 +13,7 @@ default:
         - %paths.base%/tests/features
   extensions:
     Drupal\MinkExtension:
-      base_url: 'http://127.0.0.1:8888'
+      base_url: 'http://localhost:80'
       goutte: ~
     Drupal\DrupalExtension:
       api_driver: 'drupal'

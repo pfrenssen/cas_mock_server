@@ -1,5 +1,5 @@
 travis:
-  uri: http://128.0.0.1:8888
+  uri: http://128.0.0.1:80
   root: .
   command:
     site:

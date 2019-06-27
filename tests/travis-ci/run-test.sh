@@ -29,11 +29,15 @@ case "$1" in
         ./vendor/bin/drush @travis cset cas.settings user_accounts.auto_register 1 --yes
         ./vendor/bin/drush @travis cset cas.settings user_accounts.email_assignment_strategy 1 --yes
         ./vendor/bin/drush @travis cset cas.settings user_accounts.email_attribute 'email' --yes
+        ./vendor/bin/drush @travis cset cas.settings advanced.debug_log 1 --yes
         # Disable the BigPipe module, Mink cannot find the elements which are
         # placeholdered.
         ./vendor/bin/drush @travis pm:uninstall big_pipe --yes
-        ./vendor/bin/behat
-        exit $?
+        ./vendor/bin/behat || EXIT=$?
+        ./vendor/bin/drush @travis watchdog:show
+        cat $MODULE_DIR/apache-error.log
+        cat $MODULE_DIR/apache-access.log
+        exit $EXIT
         ;;
     PHP_CodeSniffer)
         cd $MODULE_DIR
