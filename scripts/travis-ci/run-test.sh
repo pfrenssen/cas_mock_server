@@ -31,6 +31,6 @@ case "$1" in
         mysql_to_ramdisk
         ln -s $MODULE_DIR $DRUPAL_DIR/modules/contrib/cas_mock_server
         cd $MODULE_DIR
-        ./vendor/bin/phpunit -c $DRUPAL_DIR/core/phpunit.xml.dist $DRUPAL_DIR/modules/contrib/cas_mock_server/tests
+        ./vendor/bin/phpunit
         exit $?
 esac
