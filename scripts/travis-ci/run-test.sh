@@ -18,6 +18,11 @@ case "$1" in
         cd $MODULE_DIR
         ./vendor/bin/drush @travis si minimal --yes
         ./vendor/bin/drush @travis en cas_mock_server --yes
+        ./vendor/bin/drush @travis cset cas.settings login_link_enabled 1 --yes
+        ./vendor/bin/drush @travis cset cas.settings login_success_message 'You have been logged in using CAS.' --yes
+        ./vendor/bin/drush @travis cset cas.settings user_accounts.auto_register 1 --yes
+        ./vendor/bin/drush @travis cset cas.settings user_accounts.email_assignment_strategy 1 --yes
+        ./vendor/bin/drush @travis cset cas.settings user_accounts.email_attribute 'email' --yes
         ./vendor/bin/behat
         exit $?
         ;;

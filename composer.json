@@ -33,7 +33,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Drupal\\Tests\\cas_mock_server\\": "./tests/"
+      "Drupal\\Tests\\cas_mock_server\\": "../cas_mock_server_build/modules/contrib/cas_mock_server/tests/src"
     }
   },
   "minimum-stability": "alpha",

@@ -122,6 +122,7 @@ class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
     $overrides['server']['port'] = $request->getPort();
     $overrides['server']['path'] = '/cas-mock-server';
     $overrides['server']['verify'] = CasHelper::CA_NONE;
+    $overrides['server']['version'] = '3.0';
 
     return $overrides;
   }
@@ -138,10 +139,10 @@ class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
   protected static function isResolvable(string $hostname): bool {
     // Lifted from Drush.
     // @see \Drush\Exec\ExecTrait::startBrowser()
-    $hosterror = gethostbynamel($hostname) === FALSE;
-    $iperror = ip2long($hostname) && gethostbyaddr($hostname) === $hostname;
+    $host_error = gethostbynamel($hostname) === FALSE;
+    $ip_error = ip2long($hostname) && gethostbyaddr($hostname) === $hostname;
 
-    return !($hosterror || $iperror);
+    return !($host_error || $ip_error);
   }
 
 }

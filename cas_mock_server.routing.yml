@@ -1,3 +1,11 @@
+cas_mock_server.login:
+  path: '/cas-mock-server/login'
+  defaults:
+    _form: 'Drupal\cas_mock_server\Form\LoginForm'
+    _title_callback: 'Drupal\cas_mock_server\Form\LoginForm::title'
+  requirements:
+    _access: 'TRUE'
+
 cas_mock_server.settings:
   path: '/admin/config/people/cas/mock-server'
   defaults:
@@ -5,3 +13,12 @@ cas_mock_server.settings:
     _form: 'Drupal\cas_mock_server\Form\SettingsForm'
   requirements:
     _permission: 'administer site configuration'
+
+cas_mock_server.validate:
+  path: '/cas-mock-server/p3/serviceValidate'
+  defaults:
+    _controller: '\Drupal\cas_mock_server\Controller\CasMockServerController::validate'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: 'TRUE'
