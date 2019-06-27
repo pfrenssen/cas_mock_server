@@ -31,7 +31,7 @@ case "$1" in
         ./vendor/bin/drush @travis cset cas.settings user_accounts.email_attribute 'email' --yes
         # Disable the BigPipe module, Mink cannot find the elements which are
         # placeholdered.
-        ./vendor/bin/drush @travis en cas_mock_server --yes
+        ./vendor/bin/drush @travis pm:uninstall big_pipe --yes
         ./vendor/bin/behat
         exit $?
         ;;
