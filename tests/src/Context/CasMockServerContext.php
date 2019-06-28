@@ -79,13 +79,27 @@ class CasMockServerContext extends RawDrupalContext {
   }
 
   /**
-   * Clean up any users created in the scenario.
+   * Clean up any CAS users created in the scenario.
    *
    * @AfterScenario @casMockServer
    */
-  public function cleanUpUsers(): void {
+  public function cleanCasUsers(): void {
+    // Delete the users for the mock user storage.
     $user_manager = $this->getCasMockServerUserManager();
     $user_manager->deleteUsers($this->usernames);
+
+    // Delete users that might have been created in Drupal after logging in
+    // through CAS.
+    $user_storage = \Drupal::entityTypeManager()->getStorage('user');
+    $user_ids = $user_storage->getQuery()->condition('name', $this->usernames, 'IN')->execute();
+    $users = $user_storage->loadMultiple($user_ids);
+    if (!empty($users)) {
+      foreach ($users as $user) {
+        user_cancel([], $user->id(), 'user_cancel_delete');
+      }
+      $this->getDriver()->processBatch();
+    }
+
     $this->usernames = [];
   }
 
@@ -114,6 +128,10 @@ class CasMockServerContext extends RawDrupalContext {
    *
    * The `Username`, `E-mail` and `Password` columns are required. All other
    * attributes are user defined.
+   *
+   * The CAS module might create Drupal user accounts for these users on a
+   * successful authentication. At the end of the scenario the Drupal user
+   * accounts that match these usernames will be cleaned up.
    *
    * @param \Behat\Gherkin\Node\TableNode $users_data
    *   The users to register.
