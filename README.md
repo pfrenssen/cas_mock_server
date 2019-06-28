@@ -103,16 +103,22 @@ https://github.com/drush-ops/drush/blob/master/examples/example.drush.yml
 Alternatively you can pass the base URL of your Drupal site in the `--uri`
 when executing Drush commands.
 
-### Starting the mock server
+### Start the mock server
 
 ```
 $ drush cas-mock-server:start
 ```
 
-### Stopping the mock server
+### Stop the mock server
 
 ```
 $ drush cas-mock-server:stop
+```
+
+### List mock users
+
+```
+$ drush cas-mock-server:user-list
 ```
 
 

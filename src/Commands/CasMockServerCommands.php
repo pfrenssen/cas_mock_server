@@ -4,7 +4,9 @@ declare(strict_types = 1);
 
 namespace Drupal\cas_mock_server\Commands;
 
+use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drupal\cas_mock_server\ServerManagerInterface;
+use Drupal\cas_mock_server\UserManagerInterface;
 use Drush\Commands\DrushCommands;
 
 /**
@@ -20,14 +22,24 @@ class CasMockServerCommands extends DrushCommands {
   protected $serverManager;
 
   /**
+   * The CAS mock user manager.
+   *
+   * @var \Drupal\cas_mock_server\UserManagerInterface
+   */
+  protected $userManager;
+
+  /**
    * Constructs a CasMockServerCommands object.
    *
    * @param \Drupal\cas_mock_server\ServerManagerInterface $serverManager
    *   The CAS mock server manager.
+   * @param \Drupal\cas_mock_server\UserManagerInterface $userManager
+   *   The CAS mock user manager.
    */
-  public function __construct(ServerManagerInterface $serverManager) {
+  public function __construct(ServerManagerInterface $serverManager, UserManagerInterface $userManager) {
     parent::__construct();
     $this->serverManager = $serverManager;
+    $this->userManager = $userManager;
   }
 
   /**
@@ -82,6 +94,36 @@ class CasMockServerCommands extends DrushCommands {
       $this->logger()->notice(dt('The CAS mock server is inactive'));
       return 1;
     }
+  }
+
+  /**
+   * Returns a list of CAS mock users.
+   *
+   * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
+   *   A table containing all CAS mock users.
+   *
+   * @command cas-mock-server:user-list
+   * @aliases casms-ul
+   * @table-style default
+   * @usage drush cas-mock-server:user-list --format=yaml
+   *   Output the list of mock users in YAML format.
+   */
+  public function list($options = ['format' => 'table']): RowsOfFields {
+    $users = $this->userManager->getUsers();
+
+    // Compile a list of all attributes used across the different users, making
+    // sure the required attributes (username, email, password) are listed
+    // first.
+    $attributes = array_reduce($users, function (array $carry, array $user): array {
+        return array_unique(array_merge($carry, array_keys($user)));
+    }, ['username', 'email', 'password']);
+
+    $rows = [];
+    foreach ($users as $user) {
+      $rows[] = array_merge(array_fill_keys($attributes, NULL), $user);
+    }
+
+    return new RowsOfFields($rows);
   }
 
 }
