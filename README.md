@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pfrenssen/cas_mock_server.svg?branch=8.x-1.x)](https://travis-ci.org/pfrenssen/cas_mock_server)
+
 CAS mock server
 ===============
 
