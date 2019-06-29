@@ -84,6 +84,11 @@ class CasMockServerContext extends RawDrupalContext {
    * @AfterScenario @casMockServer
    */
   public function cleanCasUsers(): void {
+    // Early bailout if there are no users to clean up.
+    if (empty($this->usernames)) {
+      return;
+    }
+
     // Delete the users for the mock user storage.
     $user_manager = $this->getCasMockServerUserManager();
     $user_manager->deleteUsers($this->usernames);
