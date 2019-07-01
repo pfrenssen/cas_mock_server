@@ -120,7 +120,7 @@ class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
     $overrides['server']['hostname'] = $hostname;
     $overrides['server']['protocol'] = $request->getScheme();
     $overrides['server']['port'] = $request->getPort();
-    $overrides['server']['path'] = '/cas-mock-server';
+    $overrides['server']['path'] = $request->getBasePath() . '/cas-mock-server';
     $overrides['server']['verify'] = CasHelper::CA_NONE;
     $overrides['server']['version'] = '3.0';
 
