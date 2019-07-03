@@ -54,6 +54,11 @@ class LoginForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $settings = $this->getSettings();
 
+    $form['service_parameters'] = [
+      '#type' => 'value',
+      '#value' => $this->getRequest()->query->all(),
+    ];
+
     $form['email'] = [
       '#type' => 'textfield',
       '#title' => $settings['email'],
@@ -97,7 +102,8 @@ class LoginForm extends FormBase {
     $user = $this->getUser($form_state);
     $service_ticket = ServiceTicketHelper::generateServiceTicket();
     $this->userManager->assignServiceTicket($user['username'], $service_ticket);
-    $form_state->setRedirect('cas.service', ['ticket' => $service_ticket]);
+    $query = ['ticket' => $service_ticket] + $form_state->getValue('service_parameters');
+    $form_state->setRedirect('cas.service', $query);
   }
 
   /**
