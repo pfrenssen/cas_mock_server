@@ -17,7 +17,7 @@
     "source": "http://cgit.drupalcode.org/cas_mock_server"
   },
   "require": {
-    "php": ">=7.1.0",
+    "php": ">=5.6",
     "drupal/cas": "~1.5",
     "drupal/core": "~8.7"
   },

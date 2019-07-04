@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server;
 
 /**
@@ -28,7 +26,7 @@ interface UserManagerInterface {
    * @throws \InvalidArgumentException
    *   Thrown when the passed in user is missing a required attribute.
    */
-  public function addUser(array $user):  void;
+  public function addUser(array $user);
 
   /**
    * Adds the given users to the list of existing users.
@@ -40,7 +38,7 @@ interface UserManagerInterface {
    * @throws \InvalidArgumentException
    *   Thrown when one of the passed in users is missing a required attribute.
    */
-  public function addUsers(array $users):  void;
+  public function addUsers(array $users);
 
   /**
    * Returns the CAS user with the given name.
@@ -54,7 +52,7 @@ interface UserManagerInterface {
    * @throws \InvalidArgumentException
    *   Thrown if no user exists with the given user name.
    */
-  public function getUser(string $username): array;
+  public function getUser($username);
 
   /**
    * Returns the CAS users with the given names.
@@ -66,7 +64,7 @@ interface UserManagerInterface {
    * @return array[]
    *   The users.
    */
-  public function getUsers(array $usernames = NULL): array;
+  public function getUsers(array $usernames = NULL);
 
   /**
    * Returns the users that match the given attributes.
@@ -77,7 +75,7 @@ interface UserManagerInterface {
    * @return array[]
    *   An array of CAS user data, keyed by username.
    */
-  public function getUsersByAttributes(array $attributes): array;
+  public function getUsersByAttributes(array $attributes);
 
   /**
    * Stores the given users in the mock CAS server storage.
@@ -91,7 +89,7 @@ interface UserManagerInterface {
    * @throws \InvalidArgumentException
    *   Thrown when one of the passed in users is missing a required attribute.
    */
-  public function setUsers(array $users): void;
+  public function setUsers(array $users);
 
   /**
    * Deletes the users with the given usernames.
@@ -99,7 +97,7 @@ interface UserManagerInterface {
    * @param string[]|null $usernames
    *   An array of usernames to delete. If left empty all users will be deleted.
    */
-  public function deleteUsers(array $usernames = NULL): void;
+  public function deleteUsers(array $usernames = NULL);
 
   /**
    * Assigns the given service ticket to the given user.
@@ -113,7 +111,7 @@ interface UserManagerInterface {
    *   Thrown if the user does not exist, or if the service ticket is already
    *   assigned to a different user.
    */
-  public function assignServiceTicket(string $username, string $ticket): void;
+  public function assignServiceTicket($username, $ticket);
 
   /**
    * Returns the user that corresponds to the given service ticket.
@@ -124,6 +122,6 @@ interface UserManagerInterface {
    * @return array|null
    *   The user data, or NULL if no user is found for the given service ticket.
    */
-  public function getUserByServiceTicket(string $ticket): ?array;
+  public function getUserByServiceTicket($ticket);
 
 }

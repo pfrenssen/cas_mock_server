@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server\Config;
 
 use Drupal\cas\Service\CasHelper;
@@ -106,7 +104,7 @@ class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
    *   An associative array of configuration for the CAS module, in order to
    *   override the production CAS server with the mock server.
    */
-  protected function getOverrides(): array {
+  protected function getOverrides() {
     $overrides = [];
 
     $request = $this->requestStack->getCurrentRequest();
@@ -136,7 +134,7 @@ class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
    * @return bool
    *   TRUE if the host is resolvable.
    */
-  protected static function isResolvable(string $hostname): bool {
+  protected static function isResolvable($hostname) {
     // Lifted from Drush.
     // @see \Drush\Exec\ExecTrait::startBrowser()
     $host_error = gethostbynamel($hostname) === FALSE;

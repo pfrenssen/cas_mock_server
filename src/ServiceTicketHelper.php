@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server;
 
 /**
@@ -15,7 +13,7 @@ class ServiceTicketHelper {
    * @return string
    *   The service ticket.
    */
-  public static function generateServiceTicket(): string {
+  public static function generateServiceTicket() {
     /** @var \Drupal\Component\Uuid\UuidInterface $uuid_service */
     $uuid_service = \Drupal::service('uuid');
     return 'ST-' . $uuid_service->generate();

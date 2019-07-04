@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\Tests\cas_mock_server\Context;
 
 use Behat\Gherkin\Node\TableNode;
@@ -59,7 +57,7 @@ class CasMockServerContext extends RawDrupalContext {
    *
    * @BeforeScenario @casMockServer
    */
-  public function startMockServer(BeforeScenarioScope $scope): void {
+  public function startMockServer(BeforeScenarioScope $scope) {
     if (!$this->getServerManager()->isServerActive()) {
       $this->disableMockServerAfterScenario = TRUE;
       $this->getServerManager()->start();
@@ -71,7 +69,7 @@ class CasMockServerContext extends RawDrupalContext {
    *
    * @AfterScenario @casMockServer
    */
-  public function stopMockServer(): void {
+  public function stopMockServer() {
     if ($this->disableMockServerAfterScenario) {
       $this->disableMockServerAfterScenario = FALSE;
       $this->getServerManager()->stop();
@@ -83,7 +81,7 @@ class CasMockServerContext extends RawDrupalContext {
    *
    * @AfterScenario @casMockServer
    */
-  public function cleanCasUsers(): void {
+  public function cleanCasUsers() {
     // Early bailout if there are no users to clean up.
     if (empty($this->usernames)) {
       return;
@@ -114,7 +112,7 @@ class CasMockServerContext extends RawDrupalContext {
    * @return \Drupal\cas_mock_server\ServerManagerInterface
    *   The service that manages the CAS mock server.
    */
-  protected function getServerManager(): ServerManagerInterface {
+  protected function getServerManager() {
     return \Drupal::service('cas_mock_server.server_manager');
   }
 
@@ -183,7 +181,7 @@ class CasMockServerContext extends RawDrupalContext {
    *   An associative array of CAS attribute names, keyed by human readable
    *   attribute labels.
    */
-  protected function getAttributesMap(): array {
+  protected function getAttributesMap() {
     // Provide default values for the required attributes.
     return array_flip($this->attributesMap + [
       'username' => 'Username',
@@ -198,7 +196,7 @@ class CasMockServerContext extends RawDrupalContext {
    * @return \Drupal\cas_mock_server\UserManagerInterface
    *   The user manager.
    */
-  protected function getCasMockServerUserManager(): UserManagerInterface {
+  protected function getCasMockServerUserManager() {
     return \Drupal::service('cas_mock_server.user_manager');
   }
 
