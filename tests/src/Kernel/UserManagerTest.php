@@ -33,6 +33,7 @@ class UserManagerTest extends KernelTestBase {
     parent::setUp();
 
     $this->installSchema('system', ['key_value_expire']);
+    $this->installConfig(['cas_mock_server']);
 
     $this->userManager = $this->container->get('cas_mock_server.user_manager');
   }
