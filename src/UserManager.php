@@ -114,7 +114,7 @@ class UserManager implements UserManagerInterface {
    */
   public function setUsers(array $users): void {
     $users = $this->validateUsers($users);
-    $this->getStorage()->set('users', $users);
+    $this->getStorage()->setWithExpire('users', $users, $this->getExpirationTime());
   }
 
   /**
@@ -245,7 +245,9 @@ class UserManager implements UserManagerInterface {
    *   The expiration time.
    */
   protected function getExpirationTime(): int {
-    return $this->configFactory->get('cas_mock_server.settings')->get('user.expire');
+    /** @var int $expiration_time */
+    $expiration_time = $this->configFactory->get('cas_mock_server.settings')->get('users.expire');
+    return $expiration_time;
   }
 
 }
