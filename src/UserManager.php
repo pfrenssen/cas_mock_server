@@ -221,8 +221,7 @@ class UserManager implements UserManagerInterface {
    *   The list of users, keyed by username.
    */
   protected function loadUsers() {
-    $users = $this->getStorage()->get('users');
-    return $users ?? [];
+    return $this->getStorage()->get('users', []);
   }
 
   /**
