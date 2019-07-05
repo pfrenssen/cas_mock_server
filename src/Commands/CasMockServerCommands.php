@@ -77,6 +77,23 @@ class CasMockServerCommands extends DrushCommands {
   }
 
   /**
+   * Resets the mock server, clearing all mock users.
+   *
+   * @return int
+   *   An integer to be used as an exit code.
+   *
+   * @command cas-mock-server:reset
+   * @aliases casms-reset
+   */
+  public function reset(): int {
+    $this->userManager->deleteUsers();
+
+    $this->logger()->notice(dt('Deleted mock CAS users'));
+
+    return 0;
+  }
+
+  /**
    * Reports the status of the mock server.
    *
    * @return int
