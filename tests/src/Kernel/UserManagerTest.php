@@ -24,13 +24,15 @@ class UserManagerTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['cas_mock_server'];
+  public static $modules = ['cas_mock_server', 'system'];
 
   /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
     parent::setUp();
+
+    $this->installSchema('system', ['key_value_expire']);
 
     $this->userManager = $this->container->get('cas_mock_server.user_manager');
   }

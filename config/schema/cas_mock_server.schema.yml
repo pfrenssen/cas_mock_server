@@ -22,3 +22,11 @@ cas_mock_server.settings:
           type: label
           label: 'Submit button'
           nullable: false
+    users:
+      type: mapping
+      label: 'User settings'
+      mapping:
+        expire:
+          type: integer
+          label: 'User expiration time (in seconds)'
+          nullable: false
