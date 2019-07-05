@@ -9,13 +9,17 @@ This module provides a mocked CAS server for testing purposes.
 Disclaimer
 ----------
 
+This is an unofficial branch (`8.x-0.x`) which supports PHP 5.6. is not
+currently maintained. However, you can submit patches but they will be reviewed
+with low priority. For a better developer experience require `"php": ">=7.1"` in
+your project and use the official `8.x-1.x` branch. 
+
 This is purely intended for testing. Under no circumstances should this module
 be enabled on a production environment.
 
 Passwords are stored insecurely in plain text, and the test users are stored in
 a key value store with an expiration time, meaning that all users will be lost
 when the expiration time is reached.
-
 
 Usage
 -----
