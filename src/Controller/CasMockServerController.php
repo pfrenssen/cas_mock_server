@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server\Controller;
 
 use Drupal\cas_mock_server\UserManagerInterface;
@@ -59,7 +57,7 @@ class CasMockServerController extends ControllerBase {
    * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
    *   Thrown when a service ticket is missing or is invalid.
    */
-  public function validate(): Response {
+  public function validate() {
     $request = $this->requestStack->getCurrentRequest();
 
     // If there is no service ticket we can not validate anything.

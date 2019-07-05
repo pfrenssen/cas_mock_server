@@ -1,12 +1,9 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\KeyValueStore\KeyValueExpirableFactoryInterface;
-use Drupal\Core\KeyValueStore\KeyValueStoreExpirableInterface;
 
 /**
  * Default implementation of the user manager service for the CAS mock server.
@@ -52,14 +49,14 @@ class UserManager implements UserManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function addUser(array $user): void {
+  public function addUser(array $user) {
     $this->addUsers([$user]);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function addUsers(array $users): void {
+  public function addUsers(array $users) {
     $users = $this->validateUsers($users);
     $this->setUsers($users + $this->getUsers());
   }
@@ -67,7 +64,7 @@ class UserManager implements UserManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getUser(string $username): array {
+  public function getUser($username) {
     $users = $this->getUsers([$username]);
     if (count($users) === 1) {
       return reset($users);
@@ -78,7 +75,7 @@ class UserManager implements UserManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getUsers(array $usernames = NULL): array {
+  public function getUsers(array $usernames = NULL) {
     $users = $this->loadUsers();
 
     if (!empty($usernames)) {
@@ -91,8 +88,8 @@ class UserManager implements UserManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getUsersByAttributes(array $attributes): array {
-    return array_filter($this->getUsers(), function (array $user) use ($attributes): bool {
+  public function getUsersByAttributes(array $attributes) {
+    return array_filter($this->getUsers(), function (array $user) use ($attributes) {
       return empty(array_diff_assoc($attributes, $user));
     });
   }
@@ -100,7 +97,7 @@ class UserManager implements UserManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getUserByServiceTicket(string $ticket): ?array {
+  public function getUserByServiceTicket($ticket) {
     $users = $this->getUsersByAttributes(['service_ticket' => $ticket]);
     if (count($users) === 1) {
       return reset($users);
@@ -112,7 +109,7 @@ class UserManager implements UserManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function setUsers(array $users): void {
+  public function setUsers(array $users) {
     $users = $this->validateUsers($users);
     $this->getStorage()->setWithExpire('users', $users, $this->getExpirationTime());
   }
@@ -120,7 +117,7 @@ class UserManager implements UserManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function deleteUsers(array $usernames = NULL): void {
+  public function deleteUsers(array $usernames = NULL) {
     if (empty($usernames)) {
       $this->getStorage()->delete('users');
     }
@@ -134,7 +131,7 @@ class UserManager implements UserManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function assignServiceTicket(string $username, string $ticket): void {
+  public function assignServiceTicket($username, $ticket) {
     // Check that the service ticket is not yet assigned to a different user.
     $user = $this->getUserByServiceTicket($ticket);
     if (!empty($user) && $user['username'] !== $username) {
@@ -158,7 +155,7 @@ class UserManager implements UserManagerInterface {
    * @throws \InvalidArgumentException
    *   Thrown when one or more of the passed in users are not valid.
    */
-  protected function validateUsers(array $users): array {
+  protected function validateUsers(array $users) {
     if (!$this->areUsersValid($users)) {
       throw new \InvalidArgumentException('Invalid user data');
     }
@@ -176,7 +173,7 @@ class UserManager implements UserManagerInterface {
    * @return bool
    *   TRUE if the users valid, FALSE otherwise.
    */
-  protected function areUsersValid(array $users): bool {
+  protected function areUsersValid(array $users) {
     foreach ($users as $user) {
       if (!$this->isUserValid($user)) {
         return FALSE;
@@ -199,7 +196,7 @@ class UserManager implements UserManagerInterface {
    * @return bool
    *   TRUE if the user is valid, FALSE otherwise.
    */
-  protected function isUserValid(array $user_data): bool {
+  protected function isUserValid(array $user_data) {
     // Check that all required attributes are present.
     $missing_required_attributes = array_diff(UserManagerInterface::REQUIRED_ATTRIBUTES, array_keys($user_data));
     if (!empty($missing_required_attributes)) {
@@ -223,7 +220,7 @@ class UserManager implements UserManagerInterface {
    * @return array
    *   The list of users, keyed by username.
    */
-  protected function loadUsers(): array {
+  protected function loadUsers() {
     $users = $this->getStorage()->get('users');
     return $users ?? [];
   }
@@ -234,7 +231,7 @@ class UserManager implements UserManagerInterface {
    * @return \Drupal\Core\KeyValueStore\KeyValueStoreExpirableInterface
    *   The key value store.
    */
-  protected function getStorage(): KeyValueStoreExpirableInterface {
+  protected function getStorage() {
     return $this->keyValueFactory->get('cas_mock_server');
   }
 
@@ -244,7 +241,7 @@ class UserManager implements UserManagerInterface {
    * @return int
    *   The expiration time.
    */
-  protected function getExpirationTime(): int {
+  protected function getExpirationTime() {
     /** @var int $expiration_time */
     $expiration_time = $this->configFactory->get('cas_mock_server.settings')->get('users.expire');
     return $expiration_time;

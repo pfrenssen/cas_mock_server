@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\Tests\cas_mock_server\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
@@ -42,7 +40,7 @@ class ServerManagerTest extends KernelTestBase {
    * @covers ::stop
    * @covers ::isServerActive
    */
-  public function testStartStop(): void {
+  public function testStartStop() {
     // When the module is initially enabled the server should be inactive.
     $this->assertFalse($this->serverManager->isServerActive());
 

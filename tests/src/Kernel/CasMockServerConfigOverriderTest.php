@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\Tests\cas_mock_server\Kernel;
 
 use Drupal\cas\Service\CasHelper;
@@ -39,7 +37,7 @@ class CasMockServerConfigOverriderTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     $this->installConfig(['cas']);
@@ -56,7 +54,7 @@ class CasMockServerConfigOverriderTest extends KernelTestBase {
   /**
    * Tests that the CAS module config is overridden.
    */
-  public function testConfigOverride(): void {
+  public function testConfigOverride() {
     // When the cas_mock_server module is initially installed the default config
     // from the cas module should be left in its default values.
     $default_config = [
@@ -97,7 +95,7 @@ class CasMockServerConfigOverriderTest extends KernelTestBase {
    * @param array $expected_values
    *   The values to check.
    */
-  protected function assertConfig(array $expected_values): void {
+  protected function assertConfig(array $expected_values) {
     $raw_data = $this->getCasConfig()->getOriginal('server');
     foreach ($expected_values as $key => $expected_value) {
       $this->assertEquals($expected_value, $raw_data[$key]);
@@ -107,14 +105,14 @@ class CasMockServerConfigOverriderTest extends KernelTestBase {
   /**
    * Checks that the CAS config is not overridden.
    */
-  protected function assertConfigNotOverridden(): void {
+  protected function assertConfigNotOverridden() {
     $this->assertFalse($this->getCasConfig()->hasOverrides());
   }
 
   /**
    * Checks that the CAS config is overridden.
    */
-  protected function assertConfigOverridden(): void {
+  protected function assertConfigOverridden() {
     $this->assertTrue($this->getCasConfig()->hasOverrides());
   }
 
@@ -124,7 +122,7 @@ class CasMockServerConfigOverriderTest extends KernelTestBase {
    * @return \Drupal\Core\Config\ImmutableConfig
    *   The configuration object containing the settings for the CAS module.
    */
-  protected function getCasConfig(): ImmutableConfig {
+  protected function getCasConfig() {
     // The config factory static cache does not support cacheability metadata
     // and might return stale data. We need to invalidate its cache directly.
     // @todo Remove this when the config factory supports cacheability metadata.

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\Tests\cas_mock_server\Kernel;
 
 use Drupal\cas_mock_server\ServiceTicketHelper;
@@ -25,7 +23,7 @@ class ServiceTicketHelperTest extends KernelTestBase {
    *
    * @covers ::generateServiceTicket
    */
-  public function testGenerateServiceTicket(): void {
+  public function testGenerateServiceTicket() {
     // A service ticket must start with "ST-".
     // @see https://apereo.github.io/cas/5.0.x/protocol/CAS-Protocol-Specification.html#311-service-ticket-properties
     $service_ticket = ServiceTicketHelper::generateServiceTicket();

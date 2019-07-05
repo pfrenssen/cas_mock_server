@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\Tests\cas_mock_server\Kernel;
 
 use Drupal\cas_mock_server\Cache\Context\IsCasMockServerActiveCacheContext;
@@ -49,7 +47,7 @@ class IsCasMockServerActiveCacheContextTest extends KernelTestBase {
    *
    * @covers ::getContext
    */
-  public function testGetContext(): void {
+  public function testGetContext() {
     // Check that the cache context returns the correct value when the mock
     // server is active.
     $this->serverManager->start();

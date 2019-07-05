@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\Tests\cas_mock_server\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
@@ -29,7 +27,7 @@ class UserManagerTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     $this->installSchema('system', ['key_value_expire']);
@@ -41,7 +39,7 @@ class UserManagerTest extends KernelTestBase {
   /**
    * @covers ::addUser
    */
-  public function testAddUser(): void {
+  public function testAddUser() {
     // Initially there are no users present.
     $this->assertUserCount(0);
 
@@ -99,7 +97,7 @@ class UserManagerTest extends KernelTestBase {
   /**
    * @covers ::addUsers
    */
-  public function testAddUsers(): void {
+  public function testAddUsers() {
     // Initially there are no users present.
     $this->assertUserCount(0);
 
@@ -177,7 +175,7 @@ class UserManagerTest extends KernelTestBase {
    * @covers ::setUsers
    * @covers ::deleteUsers
    */
-  public function testUserGettersSetters(): void {
+  public function testUserGettersSetters() {
     // Create a number of users.
     $users = [
       [
@@ -281,7 +279,7 @@ class UserManagerTest extends KernelTestBase {
    * @covers ::assignServiceTicket
    * @covers ::getUserByServiceTicket
    */
-  public function testAssignServiceTicket(): void {
+  public function testAssignServiceTicket() {
     $user = [
       'username' => 'oats',
       'email' => 'mightily.oats@ohulancutash.lancre',
@@ -320,7 +318,7 @@ class UserManagerTest extends KernelTestBase {
    * @param int $count
    *   The expected user count.
    */
-  protected function assertUserCount(int $count): void {
+  protected function assertUserCount($count) {
     $this->assertEquals($count, count($this->userManager->getUsers()));
   }
 
@@ -332,7 +330,7 @@ class UserManagerTest extends KernelTestBase {
    * @param array $user_data
    *   The user data that is expected to be returned by the user manager.
    */
-  protected function assertUser(string $username, array $user_data): void {
+  protected function assertUser($username, array $user_data) {
     $user = $this->userManager->getUser($username);
     sort($user);
     sort($user_data);

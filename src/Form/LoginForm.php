@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server\Form;
 
 use Drupal\cas_mock_server\ServiceTicketHelper;
@@ -112,7 +110,7 @@ class LoginForm extends FormBase {
    * @return string
    *   The form title.
    */
-  public function title(): string {
+  public function title() {
     return $this->getSettings()['title'];
   }
 
@@ -122,7 +120,7 @@ class LoginForm extends FormBase {
    * @return array
    *   The settings as an associative array.
    */
-  protected function getSettings(): array {
+  protected function getSettings() {
     return $this->configFactory()->get('cas_mock_server.settings')->get('login_form');
   }
 
@@ -136,7 +134,7 @@ class LoginForm extends FormBase {
    *   The user data, or NULL if no user matches the email address and password
    *   that were entered in the form.
    */
-  protected function getUser(FormStateInterface $form_state): ?array {
+  protected function getUser(FormStateInterface $form_state) {
     $email = $form_state->getValue('email');
     $password = $form_state->getValue('password');
 

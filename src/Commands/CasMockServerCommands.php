@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server\Commands;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
@@ -51,7 +49,7 @@ class CasMockServerCommands extends DrushCommands {
    * @command cas-mock-server:start
    * @aliases casms-start
    */
-  public function start(): int {
+  public function start() {
     $this->serverManager->start();
 
     $this->logger()->info(dt('The CAS mock server is active'));
@@ -68,7 +66,7 @@ class CasMockServerCommands extends DrushCommands {
    * @command cas-mock-server:stop
    * @aliases casms-stop
    */
-  public function stop(): int {
+  public function stop() {
     $this->serverManager->stop();
 
     $this->logger()->notice(dt('The CAS mock server is active'));
@@ -104,7 +102,7 @@ class CasMockServerCommands extends DrushCommands {
    * @command cas-mock-server:status
    * @aliases casms-status
    */
-  public function status(): int {
+  public function status() {
     $status = $this->serverManager->isServerActive();
 
     if ($status) {
@@ -129,13 +127,13 @@ class CasMockServerCommands extends DrushCommands {
    * @usage drush cas-mock-server:user-list --format=yaml
    *   Output the list of mock users in YAML format.
    */
-  public function list($options = ['format' => 'table']): RowsOfFields {
+  public function list($options = ['format' => 'table']) {
     $users = $this->userManager->getUsers();
 
     // Compile a list of all attributes used across the different users, making
     // sure the required attributes (username, email, password) are listed
     // first.
-    $attributes = array_reduce($users, function (array $carry, array $user): array {
+    $attributes = array_reduce($users, function (array $carry, array $user) {
         return array_unique(array_merge($carry, array_keys($user)));
     }, ['username', 'email', 'password']);
 

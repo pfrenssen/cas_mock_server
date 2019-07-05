@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server\Cache\Context;
 
 use Drupal\cas_mock_server\ServerManagerInterface;

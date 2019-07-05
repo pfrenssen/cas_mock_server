@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server;
 
 use Drupal\cas_mock_server\Config\CasMockServerConfigOverrider;
@@ -48,7 +46,7 @@ class ServerManager implements ServerManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function start(): void {
+  public function start() {
     if ($this->isServerActive()) {
       return;
     }
@@ -60,7 +58,7 @@ class ServerManager implements ServerManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function stop(): void {
+  public function stop() {
     if (!$this->isServerActive()) {
       return;
     }
@@ -72,7 +70,7 @@ class ServerManager implements ServerManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function isServerActive(): bool {
+  public function isServerActive() {
     return $this->state->get(self::STATE_KEY_SERVER_STATE, FALSE);
   }
 
@@ -84,7 +82,7 @@ class ServerManager implements ServerManagerInterface {
    * disabled we need to invalidate any caches that contain the CAS module
    * config so that it will not make a server connection using stale data.
    */
-  protected function invalidateCache(): void {
+  protected function invalidateCache(){
     $this->cacheTagsInvalidator->invalidateTags([CasMockServerConfigOverrider::CACHE_TAG]);
   }
 

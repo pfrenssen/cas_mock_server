@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Drupal\cas_mock_server\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -15,21 +13,21 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId(): string {
+  public function getFormId() {
     return 'cas_mock_server_settings';
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames(): array {
+  protected function getEditableConfigNames() {
     return ['cas_mock_server.settings'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state): array {
+  public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('cas_mock_server.settings');
 
     $form['login_form'] = [
@@ -87,7 +85,7 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state): void {
+  public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('cas_mock_server.settings')
       ->set('login_form.title', $form_state->getValue(['login_form', 'title']))
       ->set('login_form.email', $form_state->getValue(['login_form', 'email']))
