@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Overrides the CAS module config to use the endpoint of the CAS mock server.
+ *
+ * If the CAS module is not enabled this overrider will have no effect since the
+ * config factory will never ask us to override the module configuration.
  */
 class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
 
@@ -92,6 +95,7 @@ class CasMockServerConfigOverrider implements ConfigFactoryOverrideInterface {
    */
   public function getCacheableMetadata($name) {
     $metadata = new CacheableMetadata();
+
     if ($name === 'cas.settings') {
       $metadata->addCacheContexts(['cas_mock_server_is_active']);
       $metadata->addCacheTags([self::CACHE_TAG]);

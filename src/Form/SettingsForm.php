@@ -67,6 +67,20 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    $form['users'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Mock user management'),
+      '#open' => TRUE,
+      '#tree' => TRUE,
+    ];
+    $form['users']['expire'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Expiration time'),
+      '#description' => $this->t('The time (in seconds) after which mock users will be automatically deleted.'),
+      '#default_value' => $config->get('users.expire'),
+      '#required' => TRUE,
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -79,6 +93,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('login_form.email', $form_state->getValue(['login_form', 'email']))
       ->set('login_form.password', $form_state->getValue(['login_form', 'password']))
       ->set('login_form.submit', $form_state->getValue(['login_form', 'submit']))
+      ->set('users.expire', $form_state->getValue(['users', 'expire']))
       ->save();
     parent::submitForm($form, $form_state);
   }

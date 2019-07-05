@@ -23,6 +23,7 @@ case "$1" in
         # - Use the CAS supplied email address when creating the new user so we
         #   can check that the CAS attributes are passed correctly.
         ./vendor/bin/drush @travis si --yes
+        ./vendor/bin/drush @travis en cas --yes
         ./vendor/bin/drush @travis en cas_mock_server --yes
         ./vendor/bin/drush @travis cset cas.settings login_link_enabled 1 --yes
         ./vendor/bin/drush @travis cset cas.settings login_success_message 'You have been logged in using CAS.' --yes

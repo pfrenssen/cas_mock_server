@@ -13,7 +13,8 @@ This is purely intended for testing. Under no circumstances should this module
 be enabled on a production environment.
 
 Passwords are stored insecurely in plain text, and the test users are stored in
-cache memory, meaning that all users are lost when the cache is cleared.
+a key value store with an expiration time, meaning that all users will be lost
+when the expiration time is reached.
 
 
 Usage

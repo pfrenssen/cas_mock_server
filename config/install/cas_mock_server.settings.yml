@@ -3,3 +3,5 @@ login_form:
   email: E-mail
   password: Password
   submit: 'Log in'
+users:
+  expire: 86400

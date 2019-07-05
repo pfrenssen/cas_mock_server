@@ -54,6 +54,8 @@ class CasMockServerCommands extends DrushCommands {
   public function start(): int {
     $this->serverManager->start();
 
+    $this->logger()->info(dt('The CAS mock server is active'));
+
     return 0;
   }
 
@@ -68,6 +70,25 @@ class CasMockServerCommands extends DrushCommands {
    */
   public function stop(): int {
     $this->serverManager->stop();
+
+    $this->logger()->notice(dt('The CAS mock server is active'));
+
+    return 0;
+  }
+
+  /**
+   * Resets the mock server, clearing all mock users.
+   *
+   * @return int
+   *   An integer to be used as an exit code.
+   *
+   * @command cas-mock-server:reset
+   * @aliases casms-reset
+   */
+  public function reset(): int {
+    $this->userManager->deleteUsers();
+
+    $this->logger()->notice(dt('Deleted mock CAS users'));
 
     return 0;
   }

@@ -4,15 +4,17 @@ declare(strict_types = 1);
 
 namespace Drupal\cas_mock_server;
 
-use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\KeyValueStore\KeyValueExpirableFactoryInterface;
+use Drupal\Core\KeyValueStore\KeyValueStoreExpirableInterface;
 
 /**
  * Default implementation of the user manager service for the CAS mock server.
  *
- * This implementation uses the Cache API to store the user data. It is intended
- * only for testing purposes.
- * - User data is not persisted. A simple cache clear will cause all data to be
- *   lost.
+ * This implementation uses an expirable key value store for the user data. It
+ * is intended only for testing purposes.
+ * - User data is not persisted. The data will be erased automatically after a
+ *   time limit is reached.
  * - Passwords are stored without encryption.
  * - This implementation is not intended to scale and should only be used with a
  *   limited number of test users.
@@ -22,18 +24,29 @@ class UserManager implements UserManagerInterface {
   /**
    * The cache backend serving as storage for the users.
    *
-   * @var \Drupal\Core\Cache\CacheBackendInterface
+   * @var \Drupal\Core\KeyValueStore\KeyValueExpirableFactoryInterface
    */
-  protected $storage;
+  protected $keyValueFactory;
 
   /**
-   * Constructs an UserManager object.
+   * The config factory.
    *
-   * @param \Drupal\Core\Cache\CacheBackendInterface $storage
-   *   The cache backend serving as storage for the users.
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
-  public function __construct(CacheBackendInterface $storage) {
-    $this->storage = $storage;
+  protected $configFactory;
+
+  /**
+   * Constructs an UserManager service.
+   *
+   * @param \Drupal\Core\KeyValueStore\KeyValueExpirableFactoryInterface $keyValueFactory
+   *   The factory for key value stores, one of which will serve as storage for
+   *   the users.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The config factory.
+   */
+  public function __construct(KeyValueExpirableFactoryInterface $keyValueFactory, ConfigFactoryInterface $configFactory) {
+    $this->keyValueFactory = $keyValueFactory;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -101,7 +114,7 @@ class UserManager implements UserManagerInterface {
    */
   public function setUsers(array $users): void {
     $users = $this->validateUsers($users);
-    $this->storage->set('users', $users);
+    $this->getStorage()->setWithExpire('users', $users, $this->getExpirationTime());
   }
 
   /**
@@ -109,7 +122,7 @@ class UserManager implements UserManagerInterface {
    */
   public function deleteUsers(array $usernames = NULL): void {
     if (empty($usernames)) {
-      $this->storage->delete('users');
+      $this->getStorage()->delete('users');
     }
     else {
       $users = $this->getUsers();
@@ -211,11 +224,30 @@ class UserManager implements UserManagerInterface {
    *   The list of users, keyed by username.
    */
   protected function loadUsers(): array {
-    $cache = $this->storage->get('users');
-    if ($cache) {
-      return $cache->data;
-    }
-    return [];
+    $users = $this->getStorage()->get('users');
+    return $users ?? [];
+  }
+
+  /**
+   * Returns the user storage.
+   *
+   * @return \Drupal\Core\KeyValueStore\KeyValueStoreExpirableInterface
+   *   The key value store.
+   */
+  protected function getStorage(): KeyValueStoreExpirableInterface {
+    return $this->keyValueFactory->get('cas_mock_server');
+  }
+
+  /**
+   * Returns the expiration time for mock users.
+   *
+   * @return int
+   *   The expiration time.
+   */
+  protected function getExpirationTime(): int {
+    /** @var int $expiration_time */
+    $expiration_time = $this->configFactory->get('cas_mock_server.settings')->get('users.expire');
+    return $expiration_time;
   }
 
 }

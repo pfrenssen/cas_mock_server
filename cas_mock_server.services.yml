@@ -20,4 +20,4 @@ services:
     arguments: ['@state', '@cache_tags.invalidator']
   cas_mock_server.user_manager:
     class: Drupal\cas_mock_server\UserManager
-    arguments: ['@cache.cas_mock_server']
+    arguments: ['@keyvalue.expirable', '@config.factory']

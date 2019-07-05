@@ -7,7 +7,7 @@ cas_mock_server.login:
     _access: 'TRUE'
 
 cas_mock_server.settings:
-  path: '/admin/config/people/cas/mock-server'
+  path: '/admin/config/people/cas-mock-server'
   defaults:
     _title: 'CAS mock server settings'
     _form: 'Drupal\cas_mock_server\Form\SettingsForm'
