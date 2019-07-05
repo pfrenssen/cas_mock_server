@@ -54,6 +54,8 @@ class CasMockServerCommands extends DrushCommands {
   public function start(): int {
     $this->serverManager->start();
 
+    $this->logger()->info(dt('The CAS mock server is active'));
+
     return 0;
   }
 
@@ -68,6 +70,8 @@ class CasMockServerCommands extends DrushCommands {
    */
   public function stop(): int {
     $this->serverManager->stop();
+
+    $this->logger()->notice(dt('The CAS mock server is active'));
 
     return 0;
   }
