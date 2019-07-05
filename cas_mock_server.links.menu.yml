@@ -1,5 +1,5 @@
 cas_mock_server.settings:
   title: 'CAS mock server'
+  parent: user.admin_index
+  description: 'Configure the CAS mock server.'
   route_name: cas_mock_server.settings
-  base_route: cas_mock_server.settings
-  weight: 1
