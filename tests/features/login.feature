@@ -40,7 +40,7 @@ Feature: CAS authentication
 
   Scenario: Login with an already linked account.
     Given users:
-      | Username    | E-mail                  |
+      | name        | mail                    |
       | chuck_local | chuck_local@example.com |
     Given CAS users:
       | Username    | E-mail                         | Password  | First name | Last name | Local username |
