@@ -37,3 +37,25 @@ Feature: CAS authentication
     Then I should see the heading "chucknorris"
     When I click "Edit"
     Then the "Email address" field should contain "texasranger@chucknorris.com.eu"
+
+  Scenario: Login with an already linked account.
+    Given users:
+      | Username    | E-mail                  |
+      | chuck_local | chuck_local@example.com |
+    Given CAS users:
+      | Username    | E-mail                         | Password  | First name | Last name | Local username |
+      | chucknorris | texasranger@chucknorris.com.eu | Qwerty098 | Chuck      | Norris    | chuck_local    |
+
+    Given I am on the homepage
+    When I click "Log in"
+    Then I click "CAS Login"
+    And I fill in "E-mail" with "texasranger@chucknorris.com.eu"
+    And I fill in "Password" with "Qwerty098"
+    When I press the "Log in" button
+    Then I should see "You have been logged in using CAS."
+    And I should see the link "My account"
+
+    When I click "My account"
+    Then I should see the heading "chuck_local"
+    When I click "Edit"
+    Then the "Email address" field should contain "chuck_local@example.com"
