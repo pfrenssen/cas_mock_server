@@ -126,13 +126,14 @@ class CasMockServerContext extends RawDrupalContext {
    * in `behat.yml`. Example table format:
    *
    * @codingStandardsIgnoreStart
-   * | Username | E-mail          | Password       | First name | Last name |
-   * | chuck    | chuck@norris.eu | Qwerty         | Chuck      | Norris    |
-   * | jb007    | 007@mi6.eu      | shaken_stirred | James      | Bond      |
+   * | Username | E-mail          | Password       | First name | Last name | Local username |
+   * | chuck    | chuck@norris.eu | Qwerty         | Chuck      | Norris    | chuck_local    |
+   * | jb007    | 007@mi6.eu      | shaken_stirred | James      | Bond      |                |
    * @codingStandardsIgnoreEnd
    *
    * The `Username`, `E-mail` and `Password` columns are required. All other
-   * attributes are user defined.
+   * attributes are user defined. The optional `Local username` can be used to
+   * link the CAS user to an existing Drupal account.
    *
    * The CAS module might create Drupal user accounts for these users on a
    * successful authentication. At the end of the scenario the Drupal user
@@ -141,17 +142,29 @@ class CasMockServerContext extends RawDrupalContext {
    * @param \Behat\Gherkin\Node\TableNode $users_data
    *   The users to register.
    *
+   * @throws \Exception
+   *   If non-existing local username has been passed.
+   *
    * @Given (the following )CAS users:
    */
   public function registerUsers(TableNode $users_data) {
     $users = [];
     $attributes_map = $this->getAttributesMap();
 
+    /** @var \Drupal\externalauth\ExternalAuthInterface $external_auth */
+    $external_auth = \Drupal::service('externalauth.externalauth');
+
     foreach ($users_data->getColumnsHash() as $user_data) {
       $values = [];
+      $local_username = NULL;
       // Replace the human readable column headers with the machine names of the
       // attributes.
       foreach ($user_data as $key => $value) {
+        if ($key === 'Local username' && $value) {
+          $local_username = $value;
+          continue;
+        }
+
         if (array_key_exists($key, $attributes_map)) {
           $values[$attributes_map[$key]] = $value;
         }
@@ -168,6 +181,15 @@ class CasMockServerContext extends RawDrupalContext {
       }
 
       $users[$values['username']] = $values;
+
+      if ($local_username) {
+        /** @var \Drupal\user\UserInterface $local_account */
+        $local_account = user_load_by_name($local_username);
+        if (!$local_account) {
+          throw new \Exception("Non-existing Drupal user '$local_username'.");
+        }
+        $external_auth->linkExistingAccount($values['username'], 'cas', $local_account);
+      }
 
       // Keep track of the users that are created so they can be cleaned up
       // after the test.
