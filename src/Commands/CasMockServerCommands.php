@@ -147,4 +147,37 @@ class CasMockServerCommands extends DrushCommands {
     return new RowsOfFields($rows);
   }
 
+  /**
+   * Creates a mock user.
+   *
+   * @param string $username The username for the new mock user
+   * @option email The email address for the new mock user
+   * @option password The password for the new mock user
+   * @return int
+   *   The status, to be returned as an error code for machine reading:
+   *   - 0: The user has been created.
+   *   - 1: An error occurred while creating the user.
+   *
+   * @command cas-mock-server:user-create
+   * @aliases casms-uc
+   * @usage drush cas-mock-server:user-create mockuser --email="mockuser@example.com" --password="mypass"
+   *   Creates a new mock user with the user name mockuser, the email address mockuser@example.com, and the password mypass
+   */
+  public function create($username, $options = ['email' => self::REQ, 'password' => self::REQ]): int
+  {
+    $user_data = [
+      'username' => $username,
+      'email' => $options['email'],
+      'password' => $options['password'],
+    ];
+    try {
+      $this->userManager->addUser($user_data);
+      return 0;
+    }
+    catch (\Exception $e) {
+      $this->logger()->error($e->getMessage());
+      return 1;
+    }
+  }
+
 }
