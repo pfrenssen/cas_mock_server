@@ -122,6 +122,12 @@ $ drush cas-mock-server:stop
 $ drush cas-mock-server:user-list
 ```
 
+### Add a mock user
+
+```
+$ drush cas-mock-server:user-create username --email=user@example.com --password=userpass
+```
+
 
 Behat integration
 -----------------
