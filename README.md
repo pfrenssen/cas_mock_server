@@ -125,7 +125,7 @@ $ drush cas-mock-server:user-list
 ### Add a mock user
 
 ```
-$ drush cas-mock-server:user-create username --email=user@example.com --password=userpass
+$ drush casms-uc username --email=user@example.com --password=userpass
 ```
 
 
