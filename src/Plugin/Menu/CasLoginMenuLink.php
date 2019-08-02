@@ -6,6 +6,7 @@ namespace Drupal\cas_mock_server\Plugin\Menu;
 
 use Drupal\Core\Menu\MenuLinkDefault;
 use Drupal\Core\Menu\StaticMenuLinkOverridesInterface;
+use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Routing\RouteMatch;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
@@ -23,6 +24,13 @@ class CasLoginMenuLink extends MenuLinkDefault {
    * @var \Drupal\Core\Session\AccountInterface
    */
   protected $currentUser;
+
+  /**
+   * The path matcher.
+   *
+   * @var \Drupal\Core\Path\PathMatcherInterface
+   */
+  protected $pathMatcher;
 
   /**
    * The request stack.
@@ -44,13 +52,16 @@ class CasLoginMenuLink extends MenuLinkDefault {
    *   The static override storage.
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   The current user.
+   * @param \Drupal\Core\Path\PathMatcherInterface $path_matcher
+   *   The path matcher.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack.
    */
-  public function __construct(array $configuration, string $plugin_id, $plugin_definition, StaticMenuLinkOverridesInterface $static_override, AccountInterface $current_user, RequestStack $request_stack) {
+  public function __construct(array $configuration, string $plugin_id, $plugin_definition, StaticMenuLinkOverridesInterface $static_override, AccountInterface $current_user, PathMatcherInterface $path_matcher, RequestStack $request_stack) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $static_override);
 
     $this->currentUser = $current_user;
+    $this->pathMatcher = $path_matcher;
     $this->requestStack = $request_stack;
   }
 
@@ -64,6 +75,7 @@ class CasLoginMenuLink extends MenuLinkDefault {
       $plugin_definition,
       $container->get('menu_link.static.overrides'),
       $container->get('current_user'),
+      $container->get('path.matcher'),
       $container->get('request_stack')
     );
   }
@@ -110,6 +122,11 @@ class CasLoginMenuLink extends MenuLinkDefault {
     if ($request->query->has('destination')) {
       $return_to = Url::fromUserInput($request->query->get('destination'))->setAbsolute()->toString();
     }
+    // If we are on the homepage, set the 'returnto' path to '/' alias.
+    elseif ($this->pathMatcher->isFrontPage()) {
+      $return_to = '/';
+    }
+    // Return to the current page URL.
     else {
       $query_arguments = $request->query->all();
       $route_match = RouteMatch::createFromRequest($request);
