@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace Drupal\Tests\cas_mock_server\Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Drupal\cas_mock_server\Plugin\Menu\CasLoginMenuLink;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Drupal\menu_link_content\Entity\MenuLinkContent;
 
 /**
  * Generic step definitions used in our feature scenarios.
@@ -33,13 +33,13 @@ class FeatureContext extends RawDrupalContext {
    * @BeforeScenario @casLoginLink
    */
   public function enableCasLoginLink(BeforeScenarioScope $scope): void {
-    $menu_link = MenuLinkContent::create([
+    $plugin_definition = [
+      'class' => CasLoginMenuLink::class,
       'title' => 'CAS Login',
-      'link' => ['uri' => 'internal:/caslogin'],
       'menu_name' => 'footer',
-    ]);
-    $menu_link->save();
-    $this->casLoginLinkId = $menu_link->id();
+    ];
+    $instance = CasLoginMenuLink::create(\Drupal::getContainer(), [], 'cas_mock_server.cas_login', $plugin_definition);
+    \Drupal::service('plugin.manager.menu.link')->addDefinition($instance->getPluginId(), $instance->getPluginDefinition());
   }
 
   /**
@@ -48,11 +48,7 @@ class FeatureContext extends RawDrupalContext {
    * @AfterScenario @casLoginLink
    */
   public function startMockServer(): void {
-    if (!empty($this->casLoginLinkId)) {
-      $menu_link = MenuLinkContent::load($this->casLoginLinkId);
-      $menu_link->delete();
-      $this->casLoginLinkId = NULL;
-    }
+    \Drupal::service('plugin.manager.menu.link')->removeDefinition('cas_mock_server.cas_login');
   }
 
   /**
