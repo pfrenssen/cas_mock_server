@@ -83,7 +83,7 @@ class CasMockServerCommands extends DrushCommands {
    * @command cas-mock-server:reset
    * @aliases casms-reset
    */
-  public function reset(): int {
+  public function reset() {
     $this->userManager->deleteUsers();
 
     $this->logger()->notice(dt('Deleted mock CAS users'));
