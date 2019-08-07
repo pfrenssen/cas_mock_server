@@ -3,7 +3,6 @@
 namespace Drupal\Tests\cas_mock_server\Kernel;
 
 use Drupal\cas\Service\CasHelper;
-use Drupal\Core\Config\ImmutableConfig;
 use Drupal\KernelTests\KernelTestBase;
 use Symfony\Component\HttpFoundation\Request;
 
