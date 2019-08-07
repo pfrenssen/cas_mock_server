@@ -17,6 +17,7 @@
     "source": "http://cgit.drupalcode.org/cas_mock_server"
   },
   "require": {
+    "drupal/cas": "~1.5",
     "drupal/core": "~8.7"
   },
   "require-dev": {
