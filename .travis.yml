@@ -9,7 +9,7 @@ php:
 
 env:
   global:
-    - COMPOSER_MEMORY_LIMIT=2G
+    - COMPOSER_MEMORY_LIMIT=-1
   matrix:
     - TEST_SUITE=Behat
     - TEST_SUITE=PHPUnit
