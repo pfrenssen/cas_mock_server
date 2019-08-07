@@ -4,6 +4,7 @@ namespace Drupal\cas_mock_server\Form;
 
 use Drupal\cas_mock_server\ServiceTicketHelper;
 use Drupal\cas_mock_server\UserManagerInterface;
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -52,9 +53,18 @@ class LoginForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $settings = $this->getSettings();
 
+    $service_parameters = $this->getRequest()->query->all();
+
+    // If a destination URL is present, pass it on to the CAS service.
+    $service = $this->getRequest()->query->get('service');
+    $url_components = UrlHelper::parse($service);
+    if ($return_to = isset($url_components['query']['returnto']) ? $url_components['query']['returnto'] : NULL) {
+      $service_parameters['returnto'] = $return_to;
+    }
+
     $form['service_parameters'] = [
       '#type' => 'value',
-      '#value' => $this->getRequest()->query->all(),
+      '#value' => $service_parameters,
     ];
 
     $form['email'] = [

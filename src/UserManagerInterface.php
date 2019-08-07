@@ -21,7 +21,8 @@ interface UserManagerInterface {
    * If a user already exists with the given username, it will be overwritten.
    *
    * @param array $user
-   *   An array of user data.
+   *   An associative array of user data. The 'username', 'email' and 'password'
+   *   keys are required. Any other CAS attributes are optional.
    *
    * @throws \InvalidArgumentException
    *   Thrown when the passed in user is missing a required attribute.

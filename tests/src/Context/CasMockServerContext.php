@@ -2,9 +2,8 @@
 
 namespace Drupal\Tests\cas_mock_server\Context;
 
-use Behat\Gherkin\Node\TableNode;
-use Drupal\cas_mock_server\ServerManagerInterface;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Gherkin\Node\TableNode;
 use Drupal\cas_mock_server\UserManagerInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
