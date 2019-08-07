@@ -127,7 +127,7 @@ class CasMockServerCommands extends DrushCommands {
    * @usage drush cas-mock-server:user-list --format=yaml
    *   Output the list of mock users in YAML format.
    */
-  public function list($options = ['format' => 'table']) {
+  public function list_users($options = ['format' => 'table']) {
     $users = $this->userManager->getUsers();
 
     // Compile a list of all attributes used across the different users, making
