@@ -9,6 +9,7 @@ default:
             attributes_map:
               firstname: First name
               lastname: Last name
+        - Drupal\Tests\cas_mock_server\Context\FeatureContext
       paths:
         - %paths.base%/tests/features
   extensions:

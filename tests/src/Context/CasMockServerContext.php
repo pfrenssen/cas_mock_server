@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\cas_mock_server\Context;
 
-use Behat\Gherkin\Node\TableNode;
-use Drupal\cas_mock_server\ServerManagerInterface;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Drupal\cas_mock_server\UserManagerInterface;
+use Behat\Gherkin\Node\TableNode;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Drupal\cas_mock_server\ServerManagerInterface;
+use Drupal\cas_mock_server\UserManagerInterface;
 
 /**
  * Step definitions for using the CAS mock server in Behat scenarios.
@@ -147,7 +147,7 @@ class CasMockServerContext extends RawDrupalContext {
    *
    * @Given (the following )CAS users:
    */
-  public function registerUsers(TableNode $users_data) {
+  public function registerUsers(TableNode $users_data): void {
     $users = [];
     $attributes_map = $this->getAttributesMap();
 

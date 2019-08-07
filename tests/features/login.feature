@@ -2,7 +2,7 @@
 Feature: CAS authentication
   In order to access multiple applications using a single set of credentials
   As the user of a web application
-  I need to be able to authenticate using the CAS single sing-on service
+  I need to be able to authenticate using the CAS single sign-on service
 
   Scenario: Log in and log out using CAS
     Given CAS users:
@@ -59,3 +59,22 @@ Feature: CAS authentication
     Then I should see the heading "chuck_local"
     When I click "Edit"
     Then the "Email address" field should contain "chuck_local@example.com"
+
+  @casLoginLink
+  Scenario Outline: User is redirected back to the page where they logged in.
+    Given CAS users:
+      | Username | E-mail               | Password |
+      | cohen    | cohen@silverhorde.am | Bethan   |
+    And I am on "<path>"
+    When I click "CAS Login"
+    And I fill in "E-mail" with "cohen@silverhorde.am"
+    And I fill in "Password" with "Bethan"
+    And I press the "Log in" button
+    Then I should see "You have been logged in using CAS."
+    And I should be on the path "<path>"
+
+    Examples:
+      | path                       |
+      | /                          |
+      | /contact                   |
+      | /search/node?keys=treasure |
