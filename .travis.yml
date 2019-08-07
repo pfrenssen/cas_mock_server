@@ -25,6 +25,9 @@ matrix:
     - php: 7.2
       env: TEST_SUITE=PHP_CodeSniffer
 
+services:
+  - mysql
+
 mysql:
   database: cas_mock_server
   username: root
