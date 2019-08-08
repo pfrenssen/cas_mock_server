@@ -179,7 +179,11 @@ class CasMockServerCommands extends DrushCommands {
    *   user@example.com, the password mypass, the 'firstname' attribute Joe, and
    *   the 'lastname' attribute Doe
    */
-  public function create($username, array $options = ['email' => self::REQ, 'password' => self::REQ, 'attribute' => []]): int {
+  public function create($username, array $options = [
+    'email' => self::REQ,
+    'password' => self::REQ,
+    'attribute' => [],
+  ]): int {
     $user_data = [
       'username' => $username,
       'email' => $options['email'],
