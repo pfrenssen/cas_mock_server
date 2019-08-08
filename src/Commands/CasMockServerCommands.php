@@ -166,17 +166,18 @@ class CasMockServerCommands extends DrushCommands {
    * @option password The password for the new mock user
    * @option attribute Additional attributes to be added to the CAS account.
    *   Multiple attributes can be passed by adding more than one --attribute
-   *   options. Each attribute consists of the attribute name concatenated with
+   *   option. Each attribute consists from the attribute name concatenated with
    *   the attribute value and using the semicolon (:) as separator. Empty
-   *   attribute value are allowed. Also, unlike the attribute name, the
-   *   value can contain the semicolon (:) char.
+   *   attribute values are allowed. Unlike the attribute name, the value can
+   *   contain the semicolon (:) char.
    * @aliases casms-uc
    * @usage drush casms-uc myuser --email="user@example.com" --password="mypass"
    *   Creates a new mock user with the user name mockuser, the email address
    *   user@example.com, and the password mypass
    * @usage drush cas-mock-server:user-create myuser --email="user@example.com" --password="mypass" --attribute=firstname:Joe --attribute=lastname:Doe
    *   Creates a new mock user with the user name mockuser, the email address
-   *   user@example.com, the password mypass, firstname Joe, and lastname Doe
+   *   user@example.com, the password mypass, the 'firstname' attribute Joe, and
+   *   the 'lastname' attribute Doe
    */
   public function create($username, array $options = ['email' => self::REQ, 'password' => self::REQ, 'attribute' => []]): int {
     $user_data = [
