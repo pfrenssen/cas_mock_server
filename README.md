@@ -9,10 +9,12 @@ This module provides a mocked CAS server for testing purposes.
 Disclaimer
 ----------
 
-This is an unofficial branch (`8.x-0.x`) which supports PHP 5.6 and Drupal 8.6.
-It is not actively maintained. You can submit patches but they will be reviewed
-with low priority. For a better developer experience require `"php": ">=7.1"` in
-your project and use the official `8.x-1.x` branch. 
+**The `8.x-0.x` branch only supports PHP 5.6 on Drupal 8.6**
+
+It is only provided for backwards compatibility reasons and is not actively
+maintained. For a better developer experience require `"php": ">=7.1"` and
+`"drupal/core": "^8.7.0"` in your project and use the official `8.x-1.x`
+branch.
 
 This is purely intended for testing. Under no circumstances should this module
 be enabled on a production environment.

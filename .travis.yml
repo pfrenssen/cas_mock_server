@@ -47,7 +47,7 @@ before_script:
   - mysql -e 'create database cas_mock_server'
 
   # Install Composer dependencies.
-  - composer install
+  - composer require drupal/core:~8.6.0
 
   # Export web server URL for browser tests.
   - export SIMPLETEST_BASE_URL=http://localhost:80
