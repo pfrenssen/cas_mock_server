@@ -82,7 +82,7 @@ class ServerManager implements ServerManagerInterface {
    * disabled we need to invalidate any caches that contain the CAS module
    * config so that it will not make a server connection using stale data.
    */
-  protected function invalidateCache(){
+  protected function invalidateCache() {
     $this->cacheTagsInvalidator->invalidateTags([CasMockServerConfigOverrider::CACHE_TAG]);
   }
 
