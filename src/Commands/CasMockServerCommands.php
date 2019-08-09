@@ -158,29 +158,60 @@ class CasMockServerCommands extends DrushCommands {
    * @return int
    *   The status, to be returned as an error code for machine reading:
    *   - 0: The user has been created.
-   *   - 1: An error occurred while creating the user.
+   *   - 1: An attribute option without the attribute name has been passed.
+   *   - 2: An error occurred while creating the user.
    *
    * @command cas-mock-server:user-create
    * @option email The email address for the new mock user
    * @option password The password for the new mock user
+   * @option attribute Additional attributes to be added to the CAS account.
+   *   Multiple attributes can be passed by adding more than one --attribute
+   *   option. Each attribute consists from the attribute name concatenated with
+   *   the attribute value and using the semicolon (:) as separator. Empty
+   *   attribute values are allowed. Unlike the attribute name, the value can
+   *   contain the semicolon (:) char.
    * @aliases casms-uc
    * @usage drush casms-uc myuser --email="user@example.com" --password="mypass"
    *   Creates a new mock user with the user name mockuser, the email address
-   *   mockuser@example.com, and the password mypass
+   *   user@example.com, and the password mypass
+   * @usage drush cas-mock-server:user-create myuser --email="user@example.com" --password="mypass" --attribute=firstname:Joe --attribute=lastname:Doe
+   *   Creates a new mock user with the user name mockuser, the email address
+   *   user@example.com, the password mypass, the 'firstname' attribute Joe, and
+   *   the 'lastname' attribute Doe
    */
-  public function create($username, array $options = ['email' => self::REQ, 'password' => self::REQ]): int {
+  public function create($username, array $options = [
+    'email' => self::REQ,
+    'password' => self::REQ,
+    'attribute' => [],
+  ]): int {
     $user_data = [
       'username' => $username,
       'email' => $options['email'],
       'password' => $options['password'],
     ];
+
+    // Add additional attributes.
+    foreach ($options['attribute'] as $attribute) {
+      // The attribute value could contain the semicolon (:) char.
+      $parts = explode(':', $attribute, 2);
+      // The attribute name could not be empty.
+      if (!$parts[0]) {
+        $this->logger()->error("Invalid option --attribute=$attribute. Missing the attribute name.");
+        return 1;
+      }
+      // The attribute value could be empty.
+      $parts[1] = $parts[1] ?? NULL;
+
+      $user_data[$parts[0]] = $parts[1];
+    }
+
     try {
       $this->userManager->addUser($user_data);
       return 0;
     }
     catch (\Exception $e) {
       $this->logger()->error($e->getMessage());
-      return 1;
+      return 2;
     }
   }
 
