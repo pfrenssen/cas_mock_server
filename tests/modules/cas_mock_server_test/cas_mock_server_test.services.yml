@@ -1,0 +1,6 @@
+services:
+  cas_mock_server_test.subscriber:
+    class: Drupal\cas_mock_server_test\EventSubscriber\CasMockServerTestSubscriber
+    arguments: ['@state']
+    tags:
+      - { name: event_subscriber }

@@ -4,9 +4,12 @@ declare(strict_types = 1);
 
 namespace Drupal\cas_mock_server\Controller;
 
+use Drupal\cas_mock_server\Event\CasMockServerEvents;
+use Drupal\cas_mock_server\Event\CasMockServerResponseAlterEvent;
 use Drupal\cas_mock_server\UserManagerInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -31,16 +34,26 @@ class CasMockServerController extends ControllerBase {
   protected $userManager;
 
   /**
+   * The event dispatcher service.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $eventDispatcher;
+
+  /**
    * Constructs a CasMockServerController.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
    * @param \Drupal\cas_mock_server\UserManagerInterface $userManager
    *   The CAS mock user manager.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
+   *   The event dispatcher service.
    */
-  public function __construct(RequestStack $requestStack, UserManagerInterface $userManager) {
+  public function __construct(RequestStack $requestStack, UserManagerInterface $userManager, EventDispatcherInterface $event_dispatcher) {
     $this->requestStack = $requestStack;
     $this->userManager = $userManager;
+    $this->eventDispatcher = $event_dispatcher;
   }
 
   /**
@@ -49,7 +62,8 @@ class CasMockServerController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('request_stack'),
-      $container->get('cas_mock_server.user_manager')
+      $container->get('cas_mock_server.user_manager'),
+      $container->get('event_dispatcher')
     );
   }
 
@@ -72,28 +86,53 @@ class CasMockServerController extends ControllerBase {
     if (!$user_data = $this->userManager->getUserByServiceTicket($ticket)) {
       throw new NotFoundHttpException();
     }
+
+    return Response::create($this->getContent($user_data), 200);
+  }
+
+  /**
+   * Builds the CAS response XML content.
+   *
+   * @param array $user_data
+   *   The user data.
+   *
+   * @return string
+   *   The XML blob.
+   */
+  protected function getContent(array $user_data = []): string {
     $username = $user_data['username'];
+    unset($user_data['username'], $user_data['service_ticket']);
 
-    // Compile the attributes to include in the XML response.
-    $attributes = "<cas:attributes>\n";
-    foreach ($user_data as $attribute => $value) {
-      if (in_array($attribute, ['username', 'service_ticket'])) {
-        continue;
+    $dom = new \DOMDocument();
+    $dom->preserveWhiteSpace = FALSE;
+    $dom->encoding = "utf-8";
+
+    $response = $dom->createElementNS('http://www.yale.edu/tp/cas', 'cas:serviceResponse');
+    $authentication_success = $dom->createElement('cas:authenticationSuccess');
+    $user = $dom->createElement('cas:user');
+    $user->textContent = $username;
+    $authentication_success->appendChild($user);
+
+    if ($user_data) {
+      $attributes = $dom->createElement('cas:attributes');
+      foreach ($user_data as $key => $value) {
+        $attribute = $dom->createElement("cas:$key");
+        $attribute->textContent = $value;
+        $attributes->appendChild($attribute);
       }
-      $attributes .= "<cas:$attribute>$value</cas:$attribute>\n";
+      $authentication_success->appendChild($attributes);
     }
-    $attributes .= "</cas:attributes>\n";
 
-    // Generate the response.
-    $response = <<<XML
-<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
-  <cas:authenticationSuccess>
-    <cas:user>$username</cas:user>
-    $attributes
-  </cas:authenticationSuccess>
-</cas:serviceResponse>
-XML;
-    return Response::create($response, 200);
+    $response->appendChild($authentication_success);
+    $dom->appendChild($response);
+
+    // The default DOM is built. There are CAS Server implementations that are
+    // responding with a different XML structure. Allow third-party modules to
+    // alter the XML document object model (DOM).
+    $response_alter_event = new CasMockServerResponseAlterEvent($dom, $username, $user_data);
+    $this->eventDispatcher->dispatch(CasMockServerEvents::RESPONSE_ALTER, $response_alter_event);
+
+    return $response_alter_event->getDom()->saveXML();
   }
 
 }
