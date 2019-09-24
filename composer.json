@@ -18,7 +18,7 @@
   },
   "require": {
     "drupal/cas": "~1.5|dev-1.x",
-    "drupal/core": "~8.6.0|~8.7.0"
+    "drupal/core": "~8.6.0|~8.7.0|~8.8.0"
   },
   "require-dev": {
     "composer/installers": "^1.6",
