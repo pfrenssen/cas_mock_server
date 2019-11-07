@@ -18,7 +18,7 @@
   },
   "require": {
     "php": ">=7.1.0",
-    "drupal/cas": "~1.5",
+    "drupal/cas": "dev-1.x",
     "drupal/core": "~8.7"
   },
   "require-dev": {
@@ -37,7 +37,7 @@
       "Drupal\\Tests\\cas_mock_server\\": "../cas_mock_server_build/modules/contrib/cas_mock_server/tests/src"
     }
   },
-  "minimum-stability": "alpha",
+  "minimum-stability": "dev",
   "suggest": {
     "drupal/config_override_warn": "Shows a warning on the CAS configuration form when the mock server is active."
   },
