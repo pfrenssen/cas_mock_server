@@ -32,13 +32,15 @@ class CasMockServerContext extends RawDrupalContext {
   protected $attributesMap;
 
   /**
-   * A list of usernames that were created by a scenario.
+   * A list of users that were created by a scenario.
    *
    * These are being tracked so they can be cleaned up after the scenario ends.
+   * The array is an associative array keyed by username and having the user
+   * email as values.
    *
    * @var string[]
    */
-  protected $usernames = [];
+  protected $users = [];
 
   /**
    * Constructs a new CasMockServerContext object.
@@ -85,18 +87,26 @@ class CasMockServerContext extends RawDrupalContext {
    */
   public function cleanCasUsers(): void {
     // Early bailout if there are no users to clean up.
-    if (empty($this->usernames)) {
+    if (empty($this->users)) {
       return;
     }
 
     // Delete the users for the mock user storage.
     $user_manager = $this->getCasMockServerUserManager();
-    $user_manager->deleteUsers($this->usernames);
+    $user_manager->deleteUsers(array_keys($this->users));
 
     // Delete users that might have been created in Drupal after logging in
     // through CAS.
     $user_storage = \Drupal::entityTypeManager()->getStorage('user');
-    $user_ids = $user_storage->getQuery()->condition('name', $this->usernames, 'IN')->execute();
+    $query = $user_storage->getQuery();
+    $or_condition = $query->orConditionGroup()
+      ->condition('name', array_keys($this->users), 'IN')
+      // Some users, created in Drupal, might have a different name than the CAS
+      // user name as some event subscribers are able to alter them. Do an
+      // additional check by email.
+      ->condition('mail', array_filter(array_values($this->users)), 'IN');
+
+    $user_ids = $user_storage->getQuery()->condition($or_condition)->execute();
     $users = $user_storage->loadMultiple($user_ids);
     if (!empty($users)) {
       foreach ($users as $user) {
@@ -105,7 +115,7 @@ class CasMockServerContext extends RawDrupalContext {
       $this->getDriver()->processBatch();
     }
 
-    $this->usernames = [];
+    $this->users = [];
   }
 
   /**
@@ -193,7 +203,7 @@ class CasMockServerContext extends RawDrupalContext {
 
       // Keep track of the users that are created so they can be cleaned up
       // after the test.
-      $this->usernames[] = $values['username'];
+      $this->users[$values['username']] = $values['email'];
     }
     $this->getCasMockServerUserManager()->addUsers($users);
   }
