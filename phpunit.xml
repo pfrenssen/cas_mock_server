@@ -28,7 +28,7 @@
     <!-- Example BROWSERTEST_OUTPUT_DIRECTORY value: /path/to/webroot/sites/simpletest/browser_output -->
     <env name="BROWSERTEST_OUTPUT_DIRECTORY" value=""/>
     <!-- To disable deprecation testing completely uncomment the next line. -->
-    <!-- <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/> -->
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     <!-- Example for changing the driver class for mink tests MINK_DRIVER_CLASS value: 'Drupal\FunctionalJavascriptTests\DrupalSelenium2Driver' -->
     <!-- Example for changing the driver args to mink tests MINK_DRIVER_ARGS value: '["http://127.0.0.1:8510"]' -->
     <!-- Example for changing the driver args to phantomjs tests MINK_DRIVER_ARGS_PHANTOMJS value: '["http://127.0.0.1:8510"]' -->
@@ -50,8 +50,6 @@
   <filter>
     <whitelist>
       <directory>../cas_mock_server_build/modules/contrib/cas_mock_server/src</directory>
-      <!-- Exclude all test modules, tests etc -->
-      <exclude-pattern>*/tests/*</exclude-pattern>
      </whitelist>
   </filter>
 </phpunit>
