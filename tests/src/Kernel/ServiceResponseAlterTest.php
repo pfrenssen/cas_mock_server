@@ -38,6 +38,7 @@ class ServiceResponseAlterTest extends KernelTestBase {
     'cas_mock_server_test',
     'externalauth',
     'system',
+    'user',
   ];
 
   /**
