@@ -3,6 +3,7 @@ type: module
 description: 'Test module for the CAS mock server.'
 package: Testing
 core: 8.x
+core_version_requirement: ^8 || ^9
 
 dependencies:
   cas_mock_server:cas_mock_server
