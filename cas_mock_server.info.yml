@@ -1,8 +1,7 @@
 name: CAS mock server
 type: module
 description: A mocked CAS server for testing purposes.
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8.8 || ^9
 
 configure: cas_mock_server.settings
 php: 7.1
