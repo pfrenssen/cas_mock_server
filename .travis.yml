@@ -1,5 +1,8 @@
 language: php
 
+services:
+  - mysql
+
 env:
   global:
     - COMPOSER_MEMORY_LIMIT=2G
@@ -65,20 +68,11 @@ jobs:
       php: nightly
       env: TEST_SUITE=Behat
 
-services:
-  - mysql
-
-mysql:
-  database: cas_mock_server
-  username: root
-  encoding: utf8
-
 cache:
   directories:
     - ${HOME}/.composer/cache
 
 before_script:
-
   # Store the current directory for later use in the Drupal installation.
   - MODULE_DIR=$(pwd)
 
@@ -88,9 +82,7 @@ before_script:
   # Install Apache when running Behat tests.
   - if [ ${TEST_SUITE} == "Behat" ]; then ${MODULE_DIR}/tests/travis-ci/install-apache.sh; fi
 
-  # Remove Xdebug as we don't need it and it causes "PHP Fatal error: Maximum
-  # function nesting level of '256' reached."
-  # We also don't care if that file exists or not on PHP 7.
+  # Remove Xdebug.
   - phpenv config-rm xdebug.ini || true
 
   # Make sure Composer is up to date.
