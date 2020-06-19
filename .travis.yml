@@ -72,8 +72,8 @@ before_script:
   - mysql -e 'create database cas_mock_server'
 
   # Install Composer dependencies.
-  - test $DEPENDENCIES == "lowest" && COMPOSER_OPTIONS="--prefer-lowest"
-  - composer install $COMPOSER_OPTIONS
+  - test $DEPENDENCIES == "lowest" && COMPOSER_OPTIONS="--prefer-lowest" || true
+  - composer update $COMPOSER_OPTIONS
 
   # Export web server URL for browser tests.
   - export SIMPLETEST_BASE_URL=http://localhost:80
