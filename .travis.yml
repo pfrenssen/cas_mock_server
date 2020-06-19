@@ -6,33 +6,41 @@ env:
 
 jobs:
   include:
-    - php: 7.1
+    - name: 'Drupal 8 on PHP 7.1'
+      php: 7.1
       env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
-    - php: 7.1
+    - name: 'Testing Behat with Drupal 8 on PHP 7.1'
+      php: 7.1
       env: TEST_SUITE=Behat DEPENDENCIES=lowest
     - php: 7.2
       env: TEST_SUITE=PHPUnit
-    - php: 7.2
+    - name: 'Testing PHPUnit with Drupal 8 on PHP 7.2'
+      php: 7.2
       env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
     - php: 7.2
       env: TEST_SUITE=Behat
-    - php: 7.2
+    - name: 'Testing Behat with Drupal 8 on PHP 7.2'
+      php: 7.2
       env: TEST_SUITE=Behat DEPENDENCIES=lowest
     - php: 7.3
       env: TEST_SUITE=PHPUnit
-    - php: 7.3
+    - name: 'Testing PHPUnit with Drupal 8 on PHP 7.3'
+      php: 7.3
       env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
     - php: 7.3
       env: TEST_SUITE=Behat
-    - php: 7.3
+    - name: 'Testing Behat with Drupal 8 on PHP 7.3'
+      php: 7.3
       env: TEST_SUITE=Behat DEPENDENCIES=lowest
     - php: 7.4
       env: TEST_SUITE=PHPUnit
-    - php: 7.4
+    - name: 'Testing PHPUnit with Drupal 8 on PHP 7.4'
+      php: 7.4
       env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
     - php: 7.4
       env: TEST_SUITE=Behat
-    - php: 7.4
+    - name: 'Testing Behat with Drupal 8 on PHP 7.4'
+      php: 7.4
       env: TEST_SUITE=Behat DEPENDENCIES=lowest
     - php: 7.4
       env: TEST_SUITE=PHP_CodeSniffer
