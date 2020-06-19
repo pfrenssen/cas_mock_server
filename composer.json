@@ -29,7 +29,7 @@
     "drupal/drupal-extension": "~4.0",
     "drush/drush": "~10.2",
     "mikey179/vfsstream": "^1.6",
-    "phpunit/phpunit": "^7 || ^8",
+    "phpunit/phpunit": "^6.5 || ^7",
     "symfony/phpunit-bridge": "^3.4|^4.3",
     "zaporylie/composer-drupal-optimizations": "^1.1"
   },
