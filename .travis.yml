@@ -13,16 +13,26 @@ env:
     - TEST_SUITE=Behat
     - TEST_SUITE=PHPUnit
     - TEST_SUITE=PHP_CodeSniffer
+    - DEPENDENCIES=lowest
+    - DEPENDENCIES=highest
 
 # Only run the coding standards check once.
 matrix:
   exclude:
     - php: 7.1
-      env: TEST_SUITE=PHP_CodeSniffer
+      env: TEST_SUITE=PHP_CodeSniffer DEPENDENCIES=lowest
+    - php: 7.1
+      env: TEST_SUITE=PHP_CodeSniffer DEPENDENCIES=highest
     - php: 7.2
-      env: TEST_SUITE=PHP_CodeSniffer
+      env: TEST_SUITE=PHP_CodeSniffer DEPENDENCIES=lowest
+    - php: 7.2
+      env: TEST_SUITE=PHP_CodeSniffer DEPENDENCIES=highest
     - php: 7.3
-      env: TEST_SUITE=PHP_CodeSniffer
+      env: TEST_SUITE=PHP_CodeSniffer DEPENDENCIES=lowest
+    - php: 7.3
+      env: TEST_SUITE=PHP_CodeSniffer DEPENDENCIES=highest
+    - php: 7.4
+      env: TEST_SUITE=PHP_CodeSniffer DEPENDENCIES=lowest
 
 services:
   - mysql
@@ -59,7 +69,8 @@ before_script:
   - mysql -e 'create database cas_mock_server'
 
   # Install Composer dependencies.
-  - composer install
+  - test $DEPENDENCIES == "lowest" && COMPOSER_OPTIONS="--prefer-lowest"
+  - composer install $COMPOSER_OPTIONS
 
   # Export web server URL for browser tests.
   - export SIMPLETEST_BASE_URL=http://localhost:80
