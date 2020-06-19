@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # Run either PHPUnit tests or PHP_CodeSniffer tests on Travis CI, depending
 # on the passed in parameter.
 
