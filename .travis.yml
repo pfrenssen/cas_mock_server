@@ -6,43 +6,50 @@ env:
 
 jobs:
   include:
-    - name: 'Drupal 8 on PHP 7.1'
+    - name: 'PHPUnit with Drupal 8 on PHP 7.1'
       php: 7.1
       env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
-    - name: 'Testing Behat with Drupal 8 on PHP 7.1'
+    - name: 'Behat with Drupal 8 on PHP 7.1'
       php: 7.1
       env: TEST_SUITE=Behat DEPENDENCIES=lowest
-    - php: 7.2
+    - name: 'PHPUnit with Drupal 9 on PHP 7.2'
+      php: 7.2
       env: TEST_SUITE=PHPUnit
-    - name: 'Testing PHPUnit with Drupal 8 on PHP 7.2'
+    - name: 'PHPUnit with Drupal 8 on PHP 7.2'
       php: 7.2
       env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
-    - php: 7.2
+    - name: 'Behat with Drupal 9 on PHP 7.2'
+      php: 7.2
       env: TEST_SUITE=Behat
-    - name: 'Testing Behat with Drupal 8 on PHP 7.2'
+    - name: 'Behat with Drupal 8 on PHP 7.2'
       php: 7.2
       env: TEST_SUITE=Behat DEPENDENCIES=lowest
-    - php: 7.3
+    - name: 'PHPUnit with Drupal 9 on PHP 7.3'
+      php: 7.3
       env: TEST_SUITE=PHPUnit
-    - name: 'Testing PHPUnit with Drupal 8 on PHP 7.3'
+    - name: 'PHPUnit with Drupal 8 on PHP 7.3'
       php: 7.3
       env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
-    - php: 7.3
+    - name: 'Behat with Drupal 9 on PHP 7.3'
+      php: 7.3
       env: TEST_SUITE=Behat
-    - name: 'Testing Behat with Drupal 8 on PHP 7.3'
+    - name: 'Behat with Drupal 8 on PHP 7.3'
       php: 7.3
       env: TEST_SUITE=Behat DEPENDENCIES=lowest
-    - php: 7.4
+    - name: 'PHPUnit with Drupal 9 on PHP 7.4'
+      php: 7.4
       env: TEST_SUITE=PHPUnit
-    - name: 'Testing PHPUnit with Drupal 8 on PHP 7.4'
+    - name: 'PHPUnit with Drupal 8 on PHP 7.4'
       php: 7.4
       env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
-    - php: 7.4
+    - name: 'Behat with Drupal 9 on PHP 7.4'
+      php: 7.4
       env: TEST_SUITE=Behat
-    - name: 'Testing Behat with Drupal 8 on PHP 7.4'
+    - name: 'Behat with Drupal 8 on PHP 7.4'
       php: 7.4
       env: TEST_SUITE=Behat DEPENDENCIES=lowest
-    - php: 7.4
+    - name: 'PHP_CodeSniffer'
+      php: 7.4
       env: TEST_SUITE=PHP_CodeSniffer
 
 services:
