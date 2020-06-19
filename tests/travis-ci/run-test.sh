@@ -52,6 +52,7 @@ case "$1" in
         mysql_to_ramdisk
         ln -s $MODULE_DIR $DRUPAL_DIR/modules/contrib/cas_mock_server
         cd $MODULE_DIR
+        export SYMFONY_DEPRECATIONS_HELPER="/.*/"
         ./vendor/bin/phpunit
         exit $?
 esac
