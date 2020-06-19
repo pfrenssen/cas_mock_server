@@ -11,62 +11,62 @@ jobs:
   include:
     - name: 'PHPUnit with Drupal 8 on PHP 7.1'
       php: 7.1
-      env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--prefer-lowest
     - name: 'Behat with Drupal 8 on PHP 7.1'
       php: 7.1
-      env: TEST_SUITE=Behat DEPENDENCIES=lowest
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--prefer-lowest
     - name: 'PHPUnit with Drupal 9 on PHP 7.2'
       php: 7.2
       env: TEST_SUITE=PHPUnit
     - name: 'PHPUnit with Drupal 8 on PHP 7.2'
       php: 7.2
-      env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--prefer-lowest
     - name: 'Behat with Drupal 9 on PHP 7.2'
       php: 7.2
       env: TEST_SUITE=Behat
     - name: 'Behat with Drupal 8 on PHP 7.2'
       php: 7.2
-      env: TEST_SUITE=Behat DEPENDENCIES=lowest
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--prefer-lowest
     - name: 'PHPUnit with Drupal 9 on PHP 7.3'
       php: 7.3
       env: TEST_SUITE=PHPUnit
     - name: 'PHPUnit with Drupal 8 on PHP 7.3'
       php: 7.3
-      env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--prefer-lowest
     - name: 'Behat with Drupal 9 on PHP 7.3'
       php: 7.3
       env: TEST_SUITE=Behat
     - name: 'Behat with Drupal 8 on PHP 7.3'
       php: 7.3
-      env: TEST_SUITE=Behat DEPENDENCIES=lowest
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--prefer-lowest
     - name: 'PHPUnit with Drupal 9 on PHP 7.4'
       php: 7.4
       env: TEST_SUITE=PHPUnit
     - name: 'PHPUnit with Drupal 8 on PHP 7.4'
       php: 7.4
-      env: TEST_SUITE=PHPUnit DEPENDENCIES=lowest
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--prefer-lowest
     - name: 'Behat with Drupal 9 on PHP 7.4'
       php: 7.4
       env: TEST_SUITE=Behat
     - name: 'Behat with Drupal 8 on PHP 7.4'
       php: 7.4
-      env: TEST_SUITE=Behat DEPENDENCIES=lowest
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--prefer-lowest
     - name: 'PHPUnit with Drupal 9 on PHP 8.0 nightly'
       php: nightly
-      env: TEST_SUITE=PHPUnit
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--ignore-platform-reqs
     - name: 'Behat with Drupal 9 on PHP 8.0 nightly'
       php: nightly
-      env: TEST_SUITE=Behat
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--ignore-platform-reqs
     - name: 'PHP_CodeSniffer'
       php: 7.4
       env: TEST_SUITE=PHP_CodeSniffer
   allow_failures:
     - name: 'PHPUnit with Drupal 9 on PHP 8.0 nightly'
       php: nightly
-      env: TEST_SUITE=PHPUnit
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--ignore-platform-reqs
     - name: 'Behat with Drupal 9 on PHP 8.0 nightly'
       php: nightly
-      env: TEST_SUITE=Behat
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--ignore-platform-reqs
 
 cache:
   directories:
@@ -92,7 +92,6 @@ before_script:
   - mysql -e 'create database cas_mock_server'
 
   # Install Composer dependencies.
-  - test $DEPENDENCIES == "lowest" && COMPOSER_OPTIONS="--prefer-lowest" || true
   - composer update $COMPOSER_OPTIONS
 
   # Export web server URL for browser tests.
