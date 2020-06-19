@@ -48,6 +48,12 @@ jobs:
     - name: 'Behat with Drupal 8 on PHP 7.4'
       php: 7.4
       env: TEST_SUITE=Behat DEPENDENCIES=lowest
+    - name: 'PHPUnit with Drupal 9 on PHP 8.0 nightly'
+      php: nightly
+      env: TEST_SUITE=PHPUnit
+    - name: 'Behat with Drupal 9 on PHP 8.0 nightly'
+      php: nightly
+      env: TEST_SUITE=Behat
     - name: 'PHP_CodeSniffer'
       php: 7.4
       env: TEST_SUITE=PHP_CodeSniffer
