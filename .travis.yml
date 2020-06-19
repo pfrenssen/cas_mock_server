@@ -1,43 +1,78 @@
 language: php
 
-php:
-  - 7.1
-  - 7.2
-  - 7.3
-  - 7.4
+services:
+  - mysql
 
 env:
   global:
     - COMPOSER_MEMORY_LIMIT=2G
-  matrix:
-    - TEST_SUITE=Behat
-    - TEST_SUITE=PHPUnit
-    - TEST_SUITE=PHP_CodeSniffer
 
-# Only run the coding standards check once.
-matrix:
-  exclude:
-    - php: 7.1
+jobs:
+  include:
+    - name: 'PHPUnit with Drupal 8 on PHP 7.1'
+      php: 7.1
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--prefer-lowest
+    - name: 'Behat with Drupal 8 on PHP 7.1'
+      php: 7.1
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--prefer-lowest
+    - name: 'PHPUnit with Drupal 9 on PHP 7.2'
+      php: 7.2
+      env: TEST_SUITE=PHPUnit
+    - name: 'PHPUnit with Drupal 8 on PHP 7.2'
+      php: 7.2
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--prefer-lowest
+    - name: 'Behat with Drupal 9 on PHP 7.2'
+      php: 7.2
+      env: TEST_SUITE=Behat
+    - name: 'Behat with Drupal 8 on PHP 7.2'
+      php: 7.2
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--prefer-lowest
+    - name: 'PHPUnit with Drupal 9 on PHP 7.3'
+      php: 7.3
+      env: TEST_SUITE=PHPUnit
+    - name: 'PHPUnit with Drupal 8 on PHP 7.3'
+      php: 7.3
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--prefer-lowest
+    - name: 'Behat with Drupal 9 on PHP 7.3'
+      php: 7.3
+      env: TEST_SUITE=Behat
+    - name: 'Behat with Drupal 8 on PHP 7.3'
+      php: 7.3
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--prefer-lowest
+    - name: 'PHPUnit with Drupal 9 on PHP 7.4'
+      php: 7.4
+      env: TEST_SUITE=PHPUnit
+    - name: 'PHPUnit with Drupal 8 on PHP 7.4'
+      php: 7.4
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--prefer-lowest
+    - name: 'Behat with Drupal 9 on PHP 7.4'
+      php: 7.4
+      env: TEST_SUITE=Behat
+    - name: 'Behat with Drupal 8 on PHP 7.4'
+      php: 7.4
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--prefer-lowest
+    - name: 'PHPUnit with Drupal 9 on PHP 8.0 nightly'
+      php: nightly
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--ignore-platform-reqs
+    - name: 'Behat with Drupal 9 on PHP 8.0 nightly'
+      php: nightly
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--ignore-platform-reqs
+    - name: 'PHP_CodeSniffer'
+      php: 7.4
       env: TEST_SUITE=PHP_CodeSniffer
-    - php: 7.2
-      env: TEST_SUITE=PHP_CodeSniffer
-    - php: 7.3
-      env: TEST_SUITE=PHP_CodeSniffer
-
-services:
-  - mysql
-
-mysql:
-  database: cas_mock_server
-  username: root
-  encoding: utf8
+  allow_failures:
+    - name: 'PHPUnit with Drupal 9 on PHP 8.0 nightly'
+      php: nightly
+      env: TEST_SUITE=PHPUnit COMPOSER_OPTIONS=--ignore-platform-reqs
+    - name: 'Behat with Drupal 9 on PHP 8.0 nightly'
+      php: nightly
+      env: TEST_SUITE=Behat COMPOSER_OPTIONS=--ignore-platform-reqs
 
 cache:
   directories:
     - ${HOME}/.composer/cache
 
 before_script:
-
   # Store the current directory for later use in the Drupal installation.
   - MODULE_DIR=$(pwd)
 
@@ -47,9 +82,7 @@ before_script:
   # Install Apache when running Behat tests.
   - if [ ${TEST_SUITE} == "Behat" ]; then ${MODULE_DIR}/tests/travis-ci/install-apache.sh; fi
 
-  # Remove Xdebug as we don't need it and it causes "PHP Fatal error: Maximum
-  # function nesting level of '256' reached."
-  # We also don't care if that file exists or not on PHP 7.
+  # Remove Xdebug.
   - phpenv config-rm xdebug.ini || true
 
   # Make sure Composer is up to date.
@@ -59,7 +92,7 @@ before_script:
   - mysql -e 'create database cas_mock_server'
 
   # Install Composer dependencies.
-  - composer install
+  - composer update $COMPOSER_OPTIONS
 
   # Export web server URL for browser tests.
   - export SIMPLETEST_BASE_URL=http://localhost:80

@@ -19,15 +19,16 @@
   "require": {
     "php": ">=7.1.0",
     "drupal/cas": "~1.5",
-    "drupal/core": "~8.8 || ~9"
+    "drupal/core": "^8.8.3 || ~9"
   },
   "require-dev": {
     "composer/installers": "^1.6",
+    "consolidation/robo": "^1.4.11 || ^2",
     "drupal-composer/drupal-scaffold": "^2.6",
     "drupal/coder": "~8.2",
     "drupal/drupal-extension": "~4.0",
-    "drush/drush": "^9.7",
-    "mikey179/vfsstream": "^1.6",
+    "drush/drush": "~10.2",
+    "mikey179/vfsstream": "^1.6.7",
     "phpunit/phpunit": "^6.5 || ^7",
     "symfony/phpunit-bridge": "^3.4|^4.3",
     "zaporylie/composer-drupal-optimizations": "^1.1"
@@ -38,6 +39,7 @@
     }
   },
   "minimum-stability": "alpha",
+  "prefer-stable": true,
   "suggest": {
     "drupal/config_override_warn": "Shows a warning on the CAS configuration form when the mock server is active."
   },

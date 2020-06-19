@@ -11,7 +11,7 @@ default:
               lastname: Last name
         - Drupal\Tests\cas_mock_server\Context\FeatureContext
       paths:
-        - %paths.base%/tests/features
+        - '%paths.base%/tests/features'
   extensions:
     Drupal\MinkExtension:
       base_url: 'http://localhost:80'
