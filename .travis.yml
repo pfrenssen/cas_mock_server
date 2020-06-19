@@ -1,10 +1,10 @@
 language: php
-sudo: true
 
 php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4
 
 env:
   global:
@@ -20,6 +20,8 @@ matrix:
     - php: 7.1
       env: TEST_SUITE=PHP_CodeSniffer
     - php: 7.2
+      env: TEST_SUITE=PHP_CodeSniffer
+    - php: 7.3
       env: TEST_SUITE=PHP_CodeSniffer
 
 services:
