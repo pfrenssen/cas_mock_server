@@ -71,7 +71,7 @@ class CasMockServerCommands extends DrushCommands {
   public function stop(): int {
     $this->serverManager->stop();
 
-    $this->logger()->notice(dt('The CAS mock server is active'));
+    $this->logger()->notice(dt('The CAS mock server is disabled'));
 
     return 0;
   }
