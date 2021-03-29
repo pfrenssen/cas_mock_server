@@ -32,12 +32,12 @@ class IsCasMockServerActiveCacheContextTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['cas_mock_server'];
+  protected static $modules = ['cas_mock_server'];
 
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->cacheContext = $this->container->get('cache_context.cas_mock_server_is_active');

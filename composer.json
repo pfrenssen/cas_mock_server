@@ -16,21 +16,18 @@
     "issues": "https://www.drupal.org/project/issues/cas_mock_server",
     "source": "http://cgit.drupalcode.org/cas_mock_server"
   },
-  "require": {
-    "php": ">=7.1.0",
-    "drupal/cas": "~1.5",
-    "drupal/core": "^8.8.3 || ~9"
-  },
   "require-dev": {
     "composer/installers": "^1.6",
-    "consolidation/robo": "^1.4.11 || ^2",
-    "drupal-composer/drupal-scaffold": "^2.6",
+    "drupal/cas": "~1.7",
     "drupal/coder": "~8.2",
+    "drupal/core-composer-scaffold": "^8.9 || ^9.1",
+    "drupal/core-recommended": "^8.9 || ^9.1",
     "drupal/drupal-extension": "~4.0",
-    "drush/drush": "~10.2",
+    "drush/drush": "~10.4",
     "mikey179/vfsstream": "^1.6.7",
-    "phpunit/phpunit": "^6.5 || ^7",
-    "symfony/phpunit-bridge": "^3.4|^4.3",
+    "phpspec/prophecy-phpunit": "^1.0 || ^2.0",
+    "phpunit/phpunit": "*",
+    "symfony/phpunit-bridge": "^5.2",
     "zaporylie/composer-drupal-optimizations": "^1.1"
   },
   "autoload-dev": {
@@ -46,7 +43,7 @@
   "extra": {
     "drush": {
       "services": {
-        "drush.services.yml": "^9"
+        "drush.services.yml": "^10"
       }
     },
     "installer-paths": {
@@ -54,6 +51,15 @@
       "../cas_mock_server_build/profiles/contrib/{$name}": ["type:drupal-profile"],
       "../cas_mock_server_build/modules/contrib/{$name}": ["type:drupal-module"],
       "../cas_mock_server_build/themes/contrib/{$name}": ["type:drupal-theme"]
+    },
+    "drupal-scaffold": {
+      "locations": {
+        "web-root": "../cas_mock_server_build/"
+      },
+      "file-mapping": {
+        "[project-root]/.editorconfig": false,
+        "[project-root]/.gitattributes": false
+      }
     }
   },
   "repositories": {

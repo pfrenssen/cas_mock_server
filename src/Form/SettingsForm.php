@@ -91,7 +91,10 @@ class SettingsForm extends ConfigFormBase {
     $this->config('cas_mock_server.settings')
       ->set('login_form.title', $form_state->getValue(['login_form', 'title']))
       ->set('login_form.email', $form_state->getValue(['login_form', 'email']))
-      ->set('login_form.password', $form_state->getValue(['login_form', 'password']))
+      ->set('login_form.password', $form_state->getValue([
+        'login_form',
+        'password',
+      ]))
       ->set('login_form.submit', $form_state->getValue(['login_form', 'submit']))
       ->set('users.expire', $form_state->getValue(['users', 'expire']))
       ->save();

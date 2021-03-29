@@ -18,7 +18,7 @@ class ServiceTicketHelperTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['cas_mock_server'];
+  protected static $modules = ['cas_mock_server'];
 
   /**
    * Tests that a valid service ticket can be generated.

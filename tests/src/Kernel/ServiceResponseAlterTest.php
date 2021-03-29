@@ -32,7 +32,7 @@ class ServiceResponseAlterTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'cas',
     'cas_mock_server',
     'cas_mock_server_test',
@@ -83,7 +83,7 @@ class ServiceResponseAlterTest extends KernelTestBase {
     // @see \Drupal\cas_mock_server_test\EventSubscriber\CasMockServerTestSubscriber::alterResponse()
     $response = $http_kernel->handle($request);
     $this->assertEquals(200, $response->getStatusCode());
-    $this->assertContains('<cas:custom>altered</cas:custom>', $response->getContent());
+    $this->assertStringContainsString('<cas:custom>altered</cas:custom>', $response->getContent());
   }
 
 }

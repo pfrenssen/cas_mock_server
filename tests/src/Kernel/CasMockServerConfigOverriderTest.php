@@ -34,7 +34,12 @@ class CasMockServerConfigOverriderTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['cas', 'cas_mock_server', 'externalauth', 'system'];
+  protected static $modules = [
+    'cas',
+    'cas_mock_server',
+    'externalauth',
+    'system',
+  ];
 
   /**
    * {@inheritdoc}

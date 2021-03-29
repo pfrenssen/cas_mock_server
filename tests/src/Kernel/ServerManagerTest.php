@@ -24,12 +24,12 @@ class ServerManagerTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['cas_mock_server'];
+  protected static $modules = ['cas_mock_server'];
 
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->serverManager = $this->container->get('cas_mock_server.server_manager');

@@ -24,7 +24,7 @@ class UserManagerTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['cas_mock_server', 'system'];
+  protected static $modules = ['cas_mock_server', 'system'];
 
   /**
    * {@inheritdoc}
