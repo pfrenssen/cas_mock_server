@@ -9,6 +9,7 @@ use Drupal\cas_mock_server\UserManagerInterface;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -55,18 +56,9 @@ class LoginForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $settings = $this->getSettings();
 
-    $service_parameters = $this->getRequest()->query->all();
-
-    // If a destination URL is present, pass it on to the CAS service.
-    $service = $this->getRequest()->query->get('service');
-    $url_components = UrlHelper::parse($service);
-    if ($return_to = $url_components['query']['returnto'] ?? NULL) {
-      $service_parameters['returnto'] = $return_to;
-    }
-
-    $form['service_parameters'] = [
+    $form['service_url'] = [
       '#type' => 'value',
-      '#value' => $service_parameters,
+      '#value' => $this->getRequest()->query->get('service'),
     ];
 
     $form['email'] = [
@@ -108,12 +100,15 @@ class LoginForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $user = $this->getUser($form_state);
     $service_ticket = ServiceTicketHelper::generateServiceTicket();
     $this->userManager->assignServiceTicket($user['username'], $service_ticket);
-    $query = ['ticket' => $service_ticket] + $form_state->getValue('service_parameters');
-    $form_state->setRedirect('cas.service', $query);
+
+    // Redirect to the application but append the 'ticket' to the query string.
+    $options = UrlHelper::parse($form_state->getValue('service_url'));
+    $options['query']['ticket'] = $service_ticket;
+    $form_state->setRedirectUrl(Url::fromUri($options['path'], $options));
   }
 
   /**
