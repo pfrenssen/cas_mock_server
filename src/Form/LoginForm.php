@@ -108,7 +108,9 @@ class LoginForm extends FormBase {
     // Redirect to the application but append the 'ticket' to the query string.
     $options = UrlHelper::parse($form_state->getValue('service_url'));
     $options['query']['ticket'] = $service_ticket;
-    $form_state->setRedirectUrl(Url::fromUri($options['path'], $options));
+    $uri = $options['path'];
+    unset($options['path']);
+    $form_state->setRedirectUrl(Url::fromUri($uri, $options));
   }
 
   /**
